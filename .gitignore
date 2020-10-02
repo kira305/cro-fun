@@ -18,3 +18,4 @@ dbexport.pgsql
 newfile.txt
 npm
 public/newfile.txt
+storage/
