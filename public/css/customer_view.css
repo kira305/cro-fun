@@ -1,0 +1,154 @@
+.blueTable {
+  width: 70%;
+  margin-left: 10%;
+  text-align: left;
+  margin-top:  15px;
+
+}
+
+.blueTable td {
+  font-size: 12px;
+  border: 1px solid #1C6EA4;
+  padding: 3px 2px;
+}
+
+.blueTable td .organization {
+  width: 30%;
+}
+
+.blueTable td .col3 {
+  width: 45%;
+}
+
+.blueTable td .label_code {
+  width: 30%;
+  float: left;
+}
+
+.blueTable td .label_address {
+  width: 30%;
+  float: left;
+}
+
+.blueTable td .client_code {
+  float: left;
+}
+
+.blueTable td .client_address {
+  float: left;
+}
+
+.blueTable td .label_2 {
+  width: 30%;
+  float: left;
+}
+
+.blueTable td .label_1 {
+
+  width: 30%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  float: left;
+  margin-right: 0%;
+}
+
+.blueTable td .label_1 b {
+  vertical-align: middle;
+}
+
+.blueTable td p {
+  margin-left: 0%;
+  margin-top: 0%;
+}
+
+.blueTable td button {
+  horizontal-align: middle;
+  display: block;
+  margin: auto;
+}
+
+.blueTable td .minimal {
+  vertical-align: middle;
+  display: block;
+  margin: auto;
+}
+
+.blueTable td #yoshinchousa {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+}
+
+.blueTable td #yoshinchousa_1 {
+  width: 12px;
+  height: 13px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: -1px;
+  overflow: hidden;
+}
+
+.blueTable td #label_x_0 {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+  float: left;
+}
+
+.blueTable td #input_x_0 {
+  width: 12px;
+  height: 13px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: 3px;
+  overflow: hidden;
+  float: left;
+  margin-left: 2%;
+}
+
+.blueTable td #label_x_1 {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+  float: left;
+}
+
+.blueTable td #input_x_1 {
+  width: 12px;
+  height: 13px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: 3px;
+  overflow: hidden;
+  float: left;
+  margin-left: 2%;
+}
+
+.blueTable td #label_x_2 {
+  display: block;
+  padding-left: 15px;
+  text-indent: -15px;
+  float: left;
+}
+
+.blueTable td #input_x_2 {
+  width: 12px;
+  height: 13px;
+  padding: 0;
+  margin: 0;
+  vertical-align: bottom;
+  position: relative;
+  top: 3px;
+  overflow: hidden;
+  float: left;
+  margin-left: 2%;
+}
+.btn-file {
+  width: 207px;
+}

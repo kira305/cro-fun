@@ -1,0 +1,18 @@
+#credit_infor {
+  float: left;
+}
+
+#credit_infor .infor1 {
+  width: 8.33333333%;
+}
+
+#credit_infor .infor2 {
+  width: 8.33333333%;
+}
+
+.table-config {
+    border: 3px solid #d2d6de;
+}
+.table-config  tbody  tr  td {
+    width: calc(100% / 12);
+}

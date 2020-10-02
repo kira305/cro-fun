@@ -1,0 +1,92 @@
+select {
+    height: 27px;
+}
+
+option {
+    height: 27px;
+    position: absolute;
+    background-color: #fffafa;
+    border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+    border: 6px solid transparent;
+}
+
+input {
+    height: 27px;
+    border: 1px solid #dcdcdc;
+    border-radius: 1px;
+}
+
+#company_id {
+    height: 34px;
+}
+
+#headquarter_id {
+    height: 34px;
+}
+
+#department_id {
+    height: 34px;
+}
+
+#group_id {
+    height: 34px;
+}
+
+#status {
+    height: 34px;
+}
+
+#sale {
+    height: 34px;
+}
+
+.timeline {
+    font-size: 12px;
+}
+
+.box-body {
+    /* max-height: 20%; */
+}
+
+.search-form {
+    /* display: table; */
+}
+
+.search-form > div {
+    min-height: 34px;
+    margin-bottom: 15px;
+}
+.search-title {
+    padding: 8px 6px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 1;
+    color: #555;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #ccc;
+    white-space: nowrap;
+    vertical-align: middle;
+    display: table-cell;
+    border-right: 0;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.search-item {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.search-row{
+    /* margin-bottom: 15px; */
+}
+
+.search-button{
+    float: right;
+    width: 100px;
+}
+.clear-button{
+    float: left;
+    width: 100px;
+}

@@ -1,0 +1,89 @@
+@media (min-width: 992px) {
+  .col-md-6 {
+    width:auto ;
+  }
+  .col-md-1 {
+    width: 15%;
+    white-space: nowrap;
+  }
+  .col-md-2 {
+    width: 25%;
+    white-space: nowrap;
+  }
+  .col-md-3 {
+    width: 15%;
+    white-space: nowrap;
+  }
+}
+
+.col-xs-2 {
+    width: 25%;
+    white-space: nowrap;
+}
+
+.col-lg-2{
+    /* width: 25%; */
+    white-space: nowrap;
+}
+
+/* th, td { white-space: nowrap;} */
+.box-body .row {
+  overflow-x: auto;
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.box-body .left {
+    margin-right: auto;
+}
+.col-xs-2 {
+    width: 25%;
+    white-space: nowrap;
+}
+
+.check_area[type='checkbox'] {
+    cursor: pointer;
+}
+.check_rule{
+    white-space: nowrap;
+}
+.check_area label{
+    width: 100%;
+    margin: 0px;
+    padding: 10px;
+}
+.check_area td{
+  padding: 0px;
+}
+
+.difference {
+ background-color: #ffcccc;
+}
+#MonthPicker_target_data_st{
+ width: 180px;
+}
+#MonthPicker_target_data_en{
+ width: 180px;
+}
+#MonthPicker_get_time{
+ width: 180px;
+}
+
+.table>thead>tr>th,.table>tbody>tr>td  {
+    vertical-align: middle;
+}
+
+.skin-blue .main-header .navbar{background-color:#367fa9}
+
+.form-control[disabled] {
+    background-color: #f4f4f4;
+}
+
+.display-flex{
+    display: flex;
+}
+
+.width-100{
+    width: 100%;
+}
+
