@@ -52,10 +52,11 @@ input {
     /* display: table; */
 }
 
-.search-form > div {
+.search-form>div {
     min-height: 34px;
     margin-bottom: 15px;
 }
+
 .search-title {
     padding: 8px 6px;
     font-size: 14px;
@@ -78,44 +79,172 @@ input {
     padding-right: 0;
 }
 
-.search-row{
+.search-row {
     /* margin-bottom: 15px; */
 }
 
-.search-button{
+.search-button {
     float: right;
     width: 100px;
 }
-.clear-button{
+
+.clear-button {
     float: left;
     width: 100px;
 }
+
 .search-item input[type="checkbox"] {
     display: none;
 }
 
-.form-group input[type="checkbox"] + .btn-group > label span {
+.form-group input[type="checkbox"]+.btn-group>label span {
     width: 20px;
 }
 
-.form-group input[type="checkbox"] + .btn-group > label span:first-child {
-    display: none;
-}
-.form-group input[type="checkbox"] + .btn-group > label span:last-child {
-    display: inline-block;
-}
-
-.form-group input[type="checkbox"]:checked + .btn-group > label span:first-child {
-    display: inline-block;
-}
-.form-group input[type="checkbox"]:checked + .btn-group > label span:last-child {
+.form-group input[type="checkbox"]+.btn-group>label span:first-child {
     display: none;
 }
 
-.border-none{
+.form-group input[type="checkbox"]+.btn-group>label span:last-child {
+    display: inline-block;
+}
+
+.form-group input[type="checkbox"]:checked+.btn-group>label span:first-child {
+    display: inline-block;
+}
+
+.form-group input[type="checkbox"]:checked+.btn-group>label span:last-child {
+    display: none;
+}
+
+.border-none {
     border-radius: 0;
 }
 
 .btn-default {
     background-color: white;
+}
+
+.skin-blue .main-header .logo {
+    background-color: unset;
+}
+
+.form-group label {
+    display: inline-block;
+    max-width: 100%;
+    margin-bottom: 5px;
+    font-weight: 700;
+}
+
+.color-red {
+    color: red;
+}
+
+.color-header {
+    color: #367fa9;
+}
+
+.d-inline {
+    display: inline;
+}
+
+[class*=icheck-] {
+    min-height: 22px;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    padding-left: 0;
+}
+
+[class*=icheck-]>input:first-child {
+    position: absolute;
+    opacity: 0;
+    margin: 0;
+}
+
+[class*=icheck-]>input[type=checkbox] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+label:not(.form-check-label):not(.custom-file-label) {
+    font-weight: 700;
+}
+
+[class*=icheck-]>label {
+    padding-left: 29px !important;
+    min-height: 22px;
+    line-height: 22px;
+    display: inline-block;
+    position: relative;
+    vertical-align: top;
+    margin-bottom: 0;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+.icheck-primary>input:first-child:checked+input[type=hidden]+label::before,
+.icheck-primary>input:first-child:checked+label::before {
+    background-color: #367fa9;
+    border-color: #367fa9;
+}
+
+[class*=icheck-]>input:first-child+input[type=hidden]+label::before,
+[class*=icheck-]>input:first-child+label::before {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    width: 34px;
+    height: 34px;
+    border: 1px solid #367fa9;
+    border-radius: 0;
+    margin-left: -29px;
+}
+
+[class*=icheck-]>input:first-child:checked+input[type=hidden]+label::after,
+[class*=icheck-]>input:first-child:checked+label::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 7px;
+    height: 10px;
+    border: 2px solid #fff;
+    border-left: none;
+    border-top: none;
+    transform: translate(13px, 10px) rotate(45deg);
+    -ms-transform: translate(13px, 10px) rotate(45deg);
+}
+
+.checkbox-title {
+    margin-top: 8px;
+    margin-right: 8px;
+}
+
+.attention-box {
+    border-radius: .4rem;
+    margin-bottom: 15px;
+    margin-top: 25px;
+    background-color: #ffecdd;
+    border: 1px solid #fbdac1;
+    padding-top: 10px;
+}
+
+.attention-title {
+    color: #954200;
+}
+
+.glyphicon-top {
+    top: 2px;
+    margin-right: 4px;
+}
+
+.p-b-20{
+    padding-bottom: 20px;
+}
+.important-text{
+    border-radius: .4rem;
+    background-color: #fbdac1;
+    color: #954200;
+    margin-right: 3px;
 }
