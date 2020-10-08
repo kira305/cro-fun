@@ -239,12 +239,33 @@ label:not(.form-check-label):not(.custom-file-label) {
     margin-right: 4px;
 }
 
-.p-b-20{
+.p-b-20 {
     padding-bottom: 20px;
 }
-.important-text{
+
+.important-text {
     border-radius: .4rem;
     background-color: #fbdac1;
     color: #954200;
     margin-right: 3px;
+}
+
+.id-change {
+    display: flex;
+}
+
+.id-change .btn {
+    margin-left: 15px;
+}
+
+.list-btn {
+    text-align: left;
+}
+
+.list-btn .btn {
+    width: 140px;
+}
+
+.text-center {
+    text-align: center;
 }

@@ -7,18 +7,14 @@
 @include('layouts.confirm_js')
 <div class="row">
     <div class="col-md-12">
-
         <ul class="timeline">
             <li>
-
                 <div class="timeline-item">
-
                     <div class="timeline">
                         <div>
                             <div class="box-body">
                                 @if ($message = Session::get('message'))
                                     <p class="message">{{ $message }}</p>
-
                                 @endif
                                 <form id="create_customer" method="post" action="{{ url('customer/create') }}">
                                     {{-- row 1 --}}
@@ -339,10 +335,9 @@
                                     <div class="col-lg-2 col-lg-offset-5">
                                         <form id="upload" action="{{ url('customer/upload') }}" method="post"
                                             enctype="multipart/form-data">
-                                            <span class="btn btn-primary btn-file" class="input_lable">
+                                            <span class="btn btn-primary btn-file">
                                                 RM情報取込
                                                 <input id="input_file" type="file" name="file_data">
-                                                @csrf
                                             </span>
                                         </form>
                                     </div>
@@ -384,7 +379,6 @@
         </ul>
     </div>
 </div>
-
 <script type="text/javascript">
     //画面が開いた際
     $(document).ready(function() {
@@ -392,82 +386,48 @@
         $("#client_code").prop("readonly", true);
         //クリックされたら
         $("#form_submit").click(function(event) {
-
             if (($("#credit_expect").val() == "") && ($("#input_file").val() != "")) {
-
                 $.alert({
-
                     title: 'メッセージ',
                     content: '希望限度額を入力してください！',
-
                 });
-
                 return;
-
             }
 
             $.ajax({
-
                 type: 'POST',
                 url: '/customer/getcode',
                 data: {
-
-
                     "company_id": $('#company_id').val()
-
                 },
-
                 success: function(data) {
-
-
-
                     $('#client_code').val(data.num);
                     $("#create_customer").submit();
-
-
                 },
-
                 error: function(exception) {
-
                     alert(exception.responseText);
-
                 }
-
             });
-
-
         });
 
         $("#input_file").change(function() {
-
             if ($("#credit_expect").val() == "") {
-
                 $.alert({
-
                     title: 'メッセージ',
                     content: '希望限度額を入力してください！',
-
                 });
-
                 $('#input_file').val('');
-
             } else {
-
                 $("#upload").submit();
             }
-
-
         });
 
         $('#upload').submit(function(event) { // when from submit send data to server
 
             var csv = $('#input_file')[0].files[0];
             var form = new FormData();
-
             form.append('csv', csv);
             form.append('credit_expect', $("#credit_expect").val());
-
-
             $.ajax({
                 url: '/customer/upload',
                 data: form,
@@ -476,93 +436,54 @@
                 processData: false,
                 type: 'POST',
                 success: function(response) {
-
-
                     if (response.status == 302) {
-
                         $.alert({
-
                             title: 'メッセージ',
                             content: response.errors.csv,
-
                         });
-
                         return;
-
                     }
 
                     if (response.status == 300) {
-
                         $.alert({
-
                             title: 'メッセージ',
                             content: response.errors.credit_expect,
-
                         });
-
                         return;
-
                     }
-
                     console.log(response);
                     set_data(response);
-
                     $('#check_credit').val(1);
                 },
-
                 error: function(exception) {
-
                     alert(exception.responseText);
                     if (exception.status == 500) {
-
                         alert('ファイルのルールはただしくありません。');
-
                     }
-
-
                 }
             });
-
-
             event.preventDefault();
-
-
         });
-
     });
 
     function set_data(response) {
-
-
-
         if ($('#client_name').val().length == 0) {
-
             $('#client_name').val(response.csv.client_name);
         }
-
         if ($('#tsr_code').val().length == 0) {
-
             $('#tsr_code').val(response.csv.tsr_code);
         }
 
         if ($('#client_address').val().length == 0) {
-
             $('#client_address').val(response.csv.client_address);
         }
-
         if ($('#corporation_num').val().length == 0) {
-
             $('#corporation_num').val(response.csv.corporation_num);
         }
-
         $('#get_time_h').val(response.csv.get_time);
         $('#rank_h').val(response.csv.rank);
-        // $('#credit_limit_h').val(response.csv.credit_limit);
-        // $('#get_time').text(response.csv.get_time);
-        // $('#rank').text(response.csv.rank);
         $('#credit_limit').val(response.csv.credit_limit);
         $('#expiration_date').val(response.expiration_date);
-
     }
 
     // 「,」区切りで出力
@@ -572,8 +493,5 @@
 
 </script>
 <script src="{{ asset('select/icontains.js') }}"></script>
-
 <script src="{{ asset('select/comboTreePlugin.js') }}"></script>
-
-
 @endsection
