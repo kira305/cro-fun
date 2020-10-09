@@ -39,10 +39,6 @@
     <link href="{{ asset('css/gobal.css') }}" rel="stylesheet">
     @endif
 
-    @if(strcmp(Request::path(),'tree/index') != 0)
-    <link href="{{ asset('css/table_master.css') }}" rel="stylesheet">
-    @endif
-
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>
     <script type="text/javascript" src="{{ asset('js/gobal.js') }}"></script>

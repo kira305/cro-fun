@@ -1,9 +1,6 @@
 @extends('layouts.app')
 @section('content')
 @section('breadcrumbs', Breadcrumbs::render('customer/create'))
-@section('styles')
-    <link href="{{ asset('css/customer_create.css') }}" rel="stylesheet">
-@stop
 @include('layouts.confirm_js')
 <div class="row">
     <div class="col-md-12">

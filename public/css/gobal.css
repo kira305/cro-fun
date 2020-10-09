@@ -242,6 +242,9 @@ label:not(.form-check-label):not(.custom-file-label) {
 .p-b-20 {
     padding-bottom: 20px;
 }
+.p-20{
+    padding: 20px;
+}
 
 .important-text {
     border-radius: .4rem;
@@ -268,4 +271,11 @@ label:not(.form-check-label):not(.custom-file-label) {
 
 .text-center {
     text-align: center;
+}
+
+.display-middle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
 }

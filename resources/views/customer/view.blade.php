@@ -1,536 +1,480 @@
 @extends('layouts.app')
-
 @section('content')
 @section('breadcrumbs', Breadcrumbs::render('customer/view'))
-@section('styles')
-
-    <link href="{{ asset('css/customer_view.css') }}" rel="stylesheet">
-    
-@stop
-      <div class="row">
-        <div class="col-md-12">
-       
-          <ul class="timeline">
-
-	          	<li>
-	             
-	              <div class="timeline-item">
-	               
-                       <div class="timeline-body">
-                            
-                        <table class="blueTable"  >
-
-
-							<tbody>
-
-								<tr>
-								   <td colspan="3"   >
-
-                                       <label class="organization"><b>会社コード:</b></label> 
-								   	   <p style="display: inline;"> {{$customer->company->abbreviate_name}} </p>
-
-								   </td>
-								   <td colspan="3" align="justify">
-
-								   	  <label class="organization"><b>新規登録申請本部:</b>
-								   	  <p style="display: inline;"> {{$customer->com_grp()->headquarters}} </p></label>
-
-
-								   </td>
-
-								</tr>
-							    <tr>
-								   <td colspan="3">
-
-                                       <label class="organization"><b>新規登録申請部署:</b></label> 
-                                       <p style="display: inline;"> {{$customer->com_grp()->department_name}} </p>
-                                      
-								   </td>
-
-								   <td colspan="3">
-
-								   	  <label class="organization"><b>新規登録申請グループ:</b>
-								   	  <p style="display: inline;"> {{$customer->com_grp()->group_name}} </p></label>
-
-								   </td>
-
-
-								</tr>
-
-								<tr>
-
-								    <td colspan="3">
-
-								    	<label class="organization"><b>顧客名:</b></label>
-								    	<p style="display: inline;"> {{$customer->client_name}} </p>
-
-								    </td>
-										<td colspan="1">
-	                                        <label class="label_level_1">データ登録日:</label>
-	                                    </td>
-	                                    <td colspan="2">
-												<p style="display: inline;"> {{ Crofun::changeFormatDateOfCredit($customer->created_at) }} </p>
-	                                    </td>
-								</tr>
-								<tr>
-
-									<td colspan="3">
-
-										<label class="organization"><b>顧客名カナ:</b></label>
-										<p style="display: inline;"> {{$customer->client_name_kana}} </p>
-
-									</td>
-									<td colspan="3">
-										
-									</td>
-
-
-								</tr>
-							    
-							    <tr>
-                                    <td colspan="3">
-                                    	<label class="organization"><b>略称:</b></label>
-                                    	<p style="display: inline;"> {{$customer->client_name_ab}} </p>
-                                    </td>
-
-                                    <td colspan="3">
-                                    	  <label class="organization"><b>ステータス:</b></label>
-                                    	  @if ($customer->status == 3) 
-
-										       <p style="display: inline;"> 取引中 </p>
-
-										  @endif  
-										  
-										  @if ($customer->status == 4) 
-
-										       <p style="display: inline;"> 仮登録中 </p>
-
-										  @endif  
-
-
-										  @if ($customer->status == 2) 
-
-										       <p style="display: inline;"> 本登録中止 </p>
-
-										  @endif  
-
-	                                      @if ($customer->status == 1) 
-
-										       <p style="display: inline;"> 取引終了 </p>
-
-										  @endif 
-                                    </td>
-
-								</tr>
-							    
-							    <tr>
-
-									<td colspan="2">
-	                                   		<label style="width:45%"><b>法人番号:</b></label>
-											<p style="display: inline;"> {{$customer->corporation_num}} </p>
-									</td>
-									<td colspan="2">
-										    
-										    <label ><b>TSRコード:</b></label>
-											<p style="display: inline;"> {{$customer->tsr_code}} </p>
-									</td>
-									<td colspan="2">
-										    <label ><b>商蔵コード:</b></label>
-											<p style="display: inline;"> {{$customer->akikura_code}} </p>
-									</td>
-
-
-								</tr>
-						        <tr>
-									<td colspan="3">
-											<label class="organization"><b>顧客コード:</b></label>
-											<p style="display: inline;">
-												@if($customer->client_code_main != null) 
-												{{$customer->client_code_main}} 
-												@else {{$customer->client_code}}
-												@endif
-											</p>
-									</td>
-                                    <td colspan="3">
-                                    	
-                                    </td>
-								</tr>
-							    <tr>
-
-									<td colspan="3">
-											<label class="organization"><b>住所:</b></label>
-											<p style="display: inline;"> {{$customer->client_address}} </p>
-									</td>
-	                               <td colspan="3">
-	                               	
-	                               </td>
-
-								</tr>
-							    <tr>
-									<td colspan="2">
-
-	                                   		<label class="col3"><b>決算月日:</b></label>
-											<p  style="display: inline;"> {{$customer->closing_time}}</p>
-
-									</td>
-									<td colspan="2">
-										    
-										    <label class="col3"><b>回収サイト:</b></label>
-											<p style="display: inline;"> {{$customer->collection_site}} </p>
-									</td>
-									<td colspan="2">
-
-										    <label class="col3"><b>取引区分:</b></label>
-										    @if ($customer->sale == 1) 
-
-											       <p style="display: inline;"> 売上先 </p>
-
-											@endif  
-											  
-											@if ($customer->sale == 2) 
-
-											       <p style="display: inline;"> 仕入先 </p>
-
-											@endif  
-
-
-											@if ($customer->sale == 3) 
-
-											       <p style="display: inline;"> 売上先+仕入先 </p>
-
-											@endif 
-
-									</td>
-
-
-								</tr>
-								<tr>
-									<td colspan="2">
-
-	                                   		<label style="width: 45%"><b>振込人名称:</b></label>
-											<p style="display: inline;"> {{$customer->transferee_name}} </p>
-
-									</td>
-									<td colspan="2">
-										    
-										    <label class="col3"><b>振込人名称相違:</b></label>
-											<input type="checkbox" disabled  style="display: inline;height: 10px" 
-											 @if ($customer->transferee == true) checked @endif  >
-											
-									</td>
-									<td colspan="2">
-
-										    <label class="col3"><b>反社チェック済み:</b>
-											<input type="checkbox" style="display: inline;height: 10px" disabled
-											 @if ($customer->antisocial == true) checked @endif  >
-								            <input type="hidden" name="id" id="hidden_id" value="{{$customer->id}}"
-						                        class="form-control">
-						                    <input type="hidden" id="company_id" value="{{$customer->company_id}}" name="company_id" ></label>
-											
-									</td>
-
-								</tr>
-								<tr>
-
-									<td colspan="2">
-											<label style="width: 45%"><b>RM与信限度額:<sup>1</sup></b></label>
-											<p style="display: inline;"> 
-											 @if($customer->credit_check())
-												{{number_format($customer->credit_check()->credit_limit / 1000)}} 
-											 @endif
-											</p>
-									</td>
-
-									<td colspan="2">
-
-											<label class="col3" ><b>取引想定合計金額:<sup>1</sup></b></label>
-											<p style="display: inline;"> {{number_format($transaction/1000)}} </p>
-
-									</td>
-
-                                    <td colspan="2">
-
-										    <label class="col3"><b>信用調査有無:</b> 
-                                           	<input type="checkbox"  style="display: inline;height: 10px" disabled
-											 @if ($customer->credit == true) checked @endif  ></label>
-											
-									</td>
-
-								</tr>
-							    <tr>
-								<td colspan="3">
-										<label class="label_2"><b>格付け情報:</b></label>
-										<p class="content_text"> 
-					                       	@if($customer->credit_check_by_get_time())
-
-					                       	{{$customer->credit_check_by_get_time()->rank}}
-
-					                       	@else 
-
-					                       	@endif
-										</p>
-								</td>
-								<td colspan="3">
-										<label class="label_2"><b>与信情報取得日:</b>
-										<p class="content_text" style="display: inline;"> 
-                                            @if($customer->credit_check_by_get_time())
-
-					                       	  {{Crofun::changeFormatDateOfCredit($customer->credit_check_by_get_time()->get_time)}}
-
-					                       	@else 
-
-					                       	@endif
-										 </p></label>
-								</td>
-
-								</tr>
-								<tr>
-								<td colspan="3">
-										<label class="label_2"><b>希望限度額:<sup>1</sup></b></label>
-										<p class="content_text"> 
-					                        @if($customer->credit_check())
-
-					                         {{number_format($customer->credit_check()->credit_expect / 1000)}}
-
-					                       	@else 
-
-					                       	@endif
-										</p>
-								</td>
-								<td colspan="3">
-										<label class="label_2"><b>与信限度期間:</b>
-										<p class="content_text" style="display: inline;"> 
-                                            @if($customer->credit_check())
-
-					                       	{{Crofun::changeFormatDateOfCredit($customer->credit_check()->expiration_date)}}
-
-					                       	@else 
-
-					                       	@endif
-										 </p></label>
-								</td>
-
-								</tr>
-                                <tr>
-
-								<td colspan="8">
-										<label><b>備考:</b></label>
-										<p class="content_text"> {{$customer->note}} </p>
-								</td>
-
-								</tr>
-
-                                <tr>
-
-								<td colspan="8">
-										<p class="content_text" style="text-align: center"> 1)1000円が省略された金額で表示されています。 </p>
-								</td>
-
-								</tr>
-                                <tr style="border:none;">
-
-										<td colspan="1" style="border:none;">
-											@if( Auth::user()->can('contract-index'))
-                                            <button onclick="contract_index_url()" style="min-width: 100px;width:200px;" class="btn-sm btn-warning">契約書情報
-                                            </button>
+<div class="row">
+    <div class="col-md-12">
+        <ul class="timeline">
+            <li>
+                <div class="timeline-item">
+                    <div class="timeline-body p-20">
+                        {{-- row 1 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>会社コード</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->company->abbreviate_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>新規登録申請本部</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->com_grp()->headquarters }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 2 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>新規登録申請部署</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->com_grp()->department_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>新規登録申請グループ</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->com_grp()->group_name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 3 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>顧客名</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->client_name }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>データ登録日</label>
+                                        <div class="form-control" readonly>
+                                            {{ Crofun::changeFormatDateOfCredit($customer->created_at) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 4 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>顧客名カナ</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->client_name_kana }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>略称</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->client_name_ab }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 5 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>ステータス</label>
+                                        <div class="form-control" readonly>
+                                            @if ($customer->status == 3)
+                                                取引中
+                                            @elseif ($customer->status == 4)
+                                                仮登録中
+                                            @elseif ($customer->status == 2)
+                                                本登録中止
+                                            @elseif ($customer->status == 1)
+                                                取引終了
                                             @endif
-										</td>
-
-										<td colspan="1" style="border:none;">
-											 @if( Auth::user()->can('project-index'))
-                                            <button onclick="project_index_url()" style="min-width: 100px;width:200px;" class="btn-sm btn-warning">プロジェクト情報</button>
-                                             @endif
-										</td>
-
-										<td colspan="1" style="border:none;">
-											@if( Auth::user()->can('credit-log'))
-                                            <button onclick="credit_log_url()" style="min-width: 100px;width:200px;" class="btn-sm btn-warning">与信情報取得履歴
-                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>法人番号</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->corporation_num }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 6 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>TSRコード</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->tsr_code }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>商蔵コード</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->akikura_code }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 7 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>顧客コード</label>
+                                        <div class="form-control" readonly>
+                                            @if ($customer->client_code_main != null)
+                                                {{ $customer->client_code_main }}
+                                            @else
+                                                {{ $customer->client_code }}
                                             @endif
-										</td>
-
-
-										<td colspan="1" style="border:none;">
-											@if( Auth::user()->can('credit-index'))
-                                             <button onclick="credit_index_url()" style="min-width: 100px;width:200px;"  class="btn-sm btn-warning">与信一覧
-                                             </button>
-                                             @endif
-										</td>
-
-										<td colspan="2" style="border:none;">
-											@if( Auth::user()->can('receivable-index'))
-                                             <button onclick="receivable_index_url()" style="min-width: 100px;width:200px;" class="btn-sm btn-warning">売掛金残</button>
-                                             @endif
-										</td>
-								</tr>
-
-    	                    <tr style="border:none;">
-
-                                <td style="border:none;">
-	                            @if( Auth::user()->can('contract-up'))
-	                              <br>
-							      <span class="btn btn-primary btn-file btn-sm" >
-									契約UP
-									<input  type="file" id="input_file" name="file_data"
-									 accept="application/pdf">
-									@csrf
-								  </span>
-			                 		<p>※本画面からUPされた契約書は、<br>全ユーザー参照できます。</p>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>住所</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->client_address }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 8 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>決算月日</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->closing_time }}
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>回収サイト</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->collection_site }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 9 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>取引区分</label>
+                                        <div class="form-control" readonly>
+                                            @if ($customer->sale == 1)
+                                                売上先
+                                            @elseif ($customer->sale == 2)
+                                                仕入先
+                                            @elseif ($customer->sale == 3)
+                                                売上先+仕入先
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>振込人名称</label>
+                                        <div class="form-control" readonly>
+                                            {{ $customer->transferee_name }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 10 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-4 form-group">
+                                        <label class="checkbox-title">振込人名称相違</label>
+                                        <div class="icheck-primary d-inline ">
+                                            <input type="checkbox" disabled @if ($customer->transferee == true)
+                                            checked @endif
+                                            id="transferee" name="transferee">
+                                            <label for="transferee"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 form-group">
+                                        <label class="checkbox-title">反社チェック済み</label>
+                                        <div class="icheck-primary d-inline ">
+                                            <input type="checkbox" disabled @if ($customer->antisocial == true)
+                                            checked @endif
+                                            id="antisocial" name="antisocial">
+                                            <label for="antisocial"></label>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 form-group">
+                                        <label class="checkbox-title">信用調査有無</label>
+                                        <div class="icheck-primary d-inline ">
+                                            <input type="checkbox" disabled @if ($customer->credit == true)
+                                            checked @endif
+                                            id="credit" name="credit" class="input_checkbox">
+                                            <label for="credit"></label>
+                                        </div>
+                                        <input type="hidden" name="id" id="hidden_id" value="{{ $customer->id }}">
+                                        <input type="hidden" id="company_id" value="{{ $customer->company_id }}" name="company_id">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 11 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>RM与信限度額<sup class="color-red">1</sup></label>
+                                        <div class="form-control" readonly>
+                                            @if ($customer->credit_check())
+                                                {{ number_format($customer->credit_check()->credit_limit / 1000) }}
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>取引想定合計金額<sup class="color-red">1</sup></label>
+                                        <div class="form-control" readonly>
+                                            {{ number_format($transaction / 1000) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 12 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>格付け情報</label>
+                                        <div class="form-control" readonly>
+                                            @if ($customer->credit_check_by_get_time())
+                                                {{ $customer->credit_check_by_get_time()->rank }}
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>与信情報取得日</label>
+                                        <div class="form-control" readonly>
+                                            @if ($customer->credit_check_by_get_time())
+                                                {{ Crofun::changeFormatDateOfCredit($customer->credit_check_by_get_time()->get_time) }}
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 13 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>希望限度額<sup class="color-red">1</sup></label>
+                                        <div class="form-control" readonly>
+                                            @if ($customer->credit_check())
+                                                {{ number_format($customer->credit_check()->credit_expect / 1000) }}
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 form-group">
+                                        <label>与信限度期間</label>
+                                        <div class="form-control" readonly>
+                                            @if ($customer->credit_check())
+                                                {{ Crofun::changeFormatDateOfCredit($customer->credit_check()->expiration_date) }}
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row 14 --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-6 form-group">
+                                        <label>備考</label>
+                                        <textarea class="form-control" rows="3" name="note" readonly>{{$customer->note}}</textarea>
+                                        <p style="margin-top: 12px"><b class="color-red">1) </b><b
+                                            class="color-header">1000円が省略された金額で表示されています。</b></p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row btn --}}
+                        <div class="row">
+                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                <div class="row search-form">
+                                    <div class="col-lg-12 form-group">
+                                        <div class="list-btn">
+                                            {{-- btn 1 --}}
+                                            @if( Auth::user()->can('contract-index'))
+                                            <a><button onclick="contract_index_url()" type="button"
+                                                    class="btn btn-warning">契約書情報</button></a>
+                                            @endif
+                                            {{-- btn 2 --}}
+                                            @if( Auth::user()->can('project-index'))
+                                            <a><button onclick="project_index_url()" type="button"
+                                                    class="btn btn-danger">プロジェクト情報</button></a>
+                                            @endif
+                                            {{-- btn 3 --}}
+                                            @if( Auth::user()->can('credit-log'))
+                                            <a><button onclick="credit_log_url()" type="button"
+                                                    class="btn btn-warning">与信情報取得履歴</button></a>
+                                            @endif
+                                            {{-- btn 4 --}}
+                                            @if( Auth::user()->can('credit-index'))
+                                            <a><button onclick="credit_index_url()" type="button"
+                                                    class="btn btn-danger">与信一覧</button></a>
+                                            @endif
+                                            {{-- btn 5 --}}
+                                            @if( Auth::user()->can('receivable-index'))
+                                            <a><button onclick="receivable_index_url()" type="button"
+                                                    class="btn btn-warning">売掛金残</button></a>
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 form-group">
+                                        <div class="list-btn">
+                                            {{-- btn 1 --}}
+                                            @php
+                                                $canViewContractUp = Auth::user()->can('contract-up');
+                                            @endphp
+                                            @if($canViewContractUp)
+                                            <span class="btn btn-primary btn-file">
+                                                契約UP
+                                                <input type="file" id="input_file" name="file_data"
+                                                    accept="application/pdf">
+                                                    @csrf
+                                            </span>
+                                            @endif
+                                            {{-- btn 2 --}}
+                                            @if ($customer->status == 3)
+                                                @if( Auth::user()->can('project-add'))
+                                                <a>
+                                                    <button onclick="project_create_url()" type="button"
+                                                        class="btn btn-primary">プロジェクト登録</button>
+                                                </a>
+                                                @endif
+                                            @endif
+                                            {{-- btn 3 --}}
+                                            @if( Auth::user()->can('credit-add'))
+                                            <a><button onclick="create_credit()" type="button"
+                                                    class="btn btn-primary">与信情報登録</button></a>
+                                            @endif
+                                            {{-- btn 4 --}}
+                                            <a><button id="csv" type="button"
+                                                    class="btn btn-success">CSV出力</button></a>
+                                        </div>
+                                        @if($canViewContractUp)
+                                            <p style="margin-top: 12px" class="list-btn"><b class="color-red">※) </b><b
+                                                class="color-header">本画面からUPされた契約書は全ユーザー参照できます。</b></p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{-- row update --}}
+                        <div class="row p-b-20">
+                            <div class="col-xs-3 display-middle">
+                                @if(Crofun::customer_edit_return_button() == 0)
+                                    <a href="{{ url('customer/infor?page='.request()->page) }}">
+                                        <button type="button" style="float: left" class="btn btn-danger search-button">戻る</button>
+                                    </a>
+                                @else
+                                    <a href="{{route('Credit_index')}}">
+                                        <button type="button" style="float: left" class="btn btn-danger search-button">戻る</button>
+                                    </a>
                                 @endif
-				                </td>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<script type="text/javascript">
+    function project_create_url() {
+        var base='{!! route("create_project") !!}';
+        var company_id=$("#company_id").val();
+        var customer_id=$("#hidden_id").val();
+        var url=base+'?company_id='+company_id+'&customer_id='+customer_id+'&pre='+2;
 
-				                <td style="border:none;">
-				                	
-                                 @if ($customer->status == 3) 
-                                 @if( Auth::user()->can('project-add'))
-				                 <a>
-				                 	<button onclick="project_create_url()" type="button" style="width:200px; float: left;" class="btn-sm btn-primary">プロジェクト登録</button>
-				                 </a>
-				                 @endif
-                                 @endif  
-				                </td>
+        window.location.href=url;
+    }
 
-				                <td style="border:none;">
-	                            @if( Auth::user()->can('credit-add'))
-				                 <a ><button onclick="create_credit()" type="button" style="width:200px; float: left;" class="btn-sm btn-primary">与信情報登録</button></a>
-                                @endif 
-				                </td>
+    function create_credit() {
+        var base='{!! route("create_credit") !!}';
+        var company_id=$("#company_id").val();
+        var customer_id=$("#hidden_id").val();
+        var url=base+'?company_id='+company_id+'&client_id='+customer_id;
 
-				                <td style="border:none;">
-	
-				                </td>
+        window.location.href=url;
+    }
 
-				                <td  style="border:none;">
-				                 <a><button id="csv" type="button" style="float: left;width:200px;" class="btn-sm btn-success">CSV出力</button></a>
+    function project_index_url() {
+        var base='{!! route('project_index') !!}';
+        var company_id=$("#company_id").val();
+        var customer_id=$("#hidden_id").val();
+        var url=base+'?&client_id='+customer_id;
 
-				                </td>
-
-	                        </tr>
-
-
-
-							</tbody>
-
-
-					    </table>
-
-                       </div>
-                       <div class="row">
-		                	　　　<br>
-
-				                <div class="col-md-4">
-				                
-				    
-
-				                </div>
-                                <div class="col-md-4">
-	                            @if(Crofun::customer_edit_return_button() == 0)
-				            	 		
-
-				                <a href="{{ url('customer/infor?page='.request()->page) }}">
-				                	<button type="button" style="float: left;width: 200px;" class="btn btn-danger">戻る</button>
-				                </a>
-
-				            	@else
-				            	 		
-				            	 		<a  href="{{route('Credit_index')}}">
-
-				            	 			<button type="button" style="float: left;width: 200px;" class="btn btn-danger"> 戻る</button>
-				            	 		 
-				            	 		</a>
-
-				            	@endif
-
-				                </div>
-				                
-				               
-				        
-		                </div>
-	              </div>
-
-	            </li>
-	           
-          </ul>
-        </div>
-      </div>
-      <script type="text/javascript">
-
-		    function project_create_url() {
-
-				    var base        =  '{!! route("create_project") !!}';
-		            var company_id  =  $( "#company_id" ).val();
-		            var customer_id =  $( "#hidden_id" ).val();
-		            var url         =  base+'?company_id='+company_id+'&customer_id='+customer_id+'&pre='+2;
-
-					window.location.href = url;   
-		    }
-
-		    function create_credit() {
-
-				    var base        =  '{!! route("create_credit") !!}';
-		            var company_id  =  $( "#company_id" ).val();
-		            var customer_id =  $( "#hidden_id" ).val();
-		            var url         =  base+'?company_id='+company_id+'&client_id='+customer_id;
-
-					window.location.href = url;   
-		    }
-
-		    function project_index_url() {
-
-				    var base        =  '{!! route('project_index') !!}';
-		            var company_id  =  $( "#company_id" ).val();
-		            var customer_id =  $( "#hidden_id" ).val();
-		            var url         =  base+'?&client_id='+customer_id;
-
-					window.location.href = url;   
-		    } 
+        window.location.href=url;
+    }
 
 
-		    function credit_index_url() {
+    function credit_index_url() {
+        var base='{!! route('Credit_index') !!}';
+        var company_id=$("#company_id").val();
+        var customer_id=$("#hidden_id").val();
+        var url=base+'?&client_id='+customer_id;
 
-				    var base        =  '{!! route('Credit_index') !!}';
-		            var company_id  =  $( "#company_id" ).val();
-		            var customer_id =  $( "#hidden_id" ).val();
-		            var url         =  base+'?&client_id='+customer_id;
+        window.location.href=url;
+    }
 
-					window.location.href = url;   
-		    }
+    function contract_index_url() {
+        var base='{!! route('Contract_index') !!}';
+        var company_id=$("#company_id").val();
+        var customer_id=$("#hidden_id").val();
+        var url=base+'?&client_id='+customer_id;
 
-		    function contract_index_url() {
+        window.location.href=url;
+    }
 
-				    var base        =  '{!! route('Contract_index') !!}';
-		            var company_id  =  $( "#company_id" ).val();
-		            var customer_id =  $( "#hidden_id" ).val();
-		            var url         =  base+'?&client_id='+customer_id;
+    function receivable_index_url() {
+        var base='{!! route('Receivable_index') !!}';
+        var company_id=$("#company_id").val();
+        var customer_id=$("#hidden_id").val();
+        var url=base+'?&client_id='+customer_id;
 
-					window.location.href = url;   
-		    }
+        window.location.href=url;
+    }
 
-		    function receivable_index_url() {
+    function credit_log_url() {
+        var base='{!! route('Credit_log') !!}';
+        var company_id=$("#company_id").val();
+        var customer_id=$("#hidden_id").val();
+        var url=base+'?&client_id='+customer_id;
 
-				    var base        =  '{!! route('Receivable_index') !!}';
-		            var company_id  =  $( "#company_id" ).val();
-		            var customer_id =  $( "#hidden_id" ).val();
-		            var url         =  base+'?&client_id='+customer_id;
+        window.location.href=url;
+    }
 
-					window.location.href = url;   
-		    }
+    $("#csv").click(function(event) {
+            var customer_id=$("#hidden_id").val();
+            document.location.href="/customer/csv2?client_id="+customer_id;
+        }
+    );
 
-		   function credit_log_url() {
-
-		    var base        =  '{!! route('Credit_log') !!}';
-            var company_id  =  $( "#company_id" ).val();
-            var customer_id =  $( "#hidden_id" ).val();
-            var url         =  base+'?&client_id='+customer_id;
-
-			window.location.href = url;   
-          }
-		$( "#csv" ).click(function(event) {
-                   
-                 var customer_id =  $( "#hidden_id" ).val();
-                 document.location.href = "/customer/csv2?client_id="+customer_id;
-
-		  });
-
-      </script>
+</script>
 @endsection

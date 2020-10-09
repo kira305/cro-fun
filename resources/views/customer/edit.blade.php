@@ -2,9 +2,6 @@
 
 @section('content')
 @section('breadcrumbs', Breadcrumbs::render('customer/edit'))
-@section('styles')
-<link href="{{ asset('css/customer_edit.css') }}" rel="stylesheet">
-@stop
 @include('layouts.confirm_js')
 <div class="row">
     <div class="col-md-12">
