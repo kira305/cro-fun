@@ -3,7 +3,7 @@
 @section('content')
 
 <div class="login-box" style="width: 400px">
-
+ 
   <!-- /.login-logo -->
   <div class="login-box-body">
      <div class="login-logo">
@@ -22,7 +22,7 @@
        @if ($errors->has('pw1'))
            <br><span class="text-danger">{{ trans($errors->first("pw1")) }}</span>
        @endif
-      </div>
+      </div>      
 
       <div class="form-group has-feedback">
         <label>新パスワード</label>
@@ -31,7 +31,7 @@
        @if ($errors->has('pw2'))
            <br><span class="text-danger">{{ trans($errors->first("pw2")) }}</span>
         @endif
-      </div>
+      </div>      
 
       <div class="form-group has-feedback">
         <label>新パスワード(確認)</label>
@@ -40,24 +40,24 @@
        @if ($errors->has('pw3'))
            <br><span class="text-danger">{{ trans($errors->first("pw3")) }}</span>
         @endif
-      </div>
-
+      </div>      
+        
       <div class="row">
         <div class="col-xs-3">
-
+           
         </div>
-
+     
         <div class="col-xs-3">
           <button type="submit" class="btn btn-primary btn-block btn-flat">更新</button>
         </div>
         <div class="col-xs-3">
           <a href="{{ url('/') }}"><button type="button" class="btn btn-default btn-block btn-flat">戻る</button></a>
         </div>
-
+       
         <div class="col-xs-3">
-
+           
         </div>
-
+   
       </div>
     </form>
 

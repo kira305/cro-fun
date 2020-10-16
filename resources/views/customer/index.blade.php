@@ -58,7 +58,8 @@
                                                         <option @if(session()->has('company_id_c'))
                                                             @if(session('company_id_c') == $company->id) selected @endif
                                                             @else
-                                                            @if(Auth::user()->company_id == $company->id) selected @endif
+                                                            @if(Auth::user()->company_id == $company->id) selected
+                                                            @endif
                                                             @endif
                                                             value="{{$company->id}}">{{$company->abbreviate_name}}
                                                         </option>
@@ -72,8 +73,7 @@
                                                 </div>
                                                 <div class="col-lg-9 col-sm-9 search-item">
                                                     <input sale="text" value="{{session('personal_code_c')}}"
-                                                    name="personal_code" id="personal_code"
-                                                    class="form-control">
+                                                        name="personal_code" id="personal_code" class="form-control">
                                                 </div>
                                             </div>
                                         </div>
@@ -87,8 +87,7 @@
                                                 </div>
                                                 <div class="col-lg-9 col-sm-9 search-item">
                                                     <input sale="text" value="{{session('customer_code_c')}}"
-                                                    name="customer_code" id="customer_code"
-                                                    class="form-control">
+                                                        name="customer_code" id="customer_code" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-md-12 col-lg-6 search-form">
@@ -97,7 +96,7 @@
                                                 </div>
                                                 <div class="col-lg-9 col-sm-9 search-item">
                                                     <input id="customer_name" value="{{session('customer_name_c')}}"
-                                                name="customer_name" sale="text" class="form-control ">
+                                                        name="customer_name" sale="text" class="form-control ">
                                                 </div>
                                             </div>
                                         </div>
@@ -116,7 +115,8 @@
                                                         </option>
                                                         <option @if (session('sale')==2) selected @endif value="2">仕入先
                                                         </option>
-                                                        <option @if (session('sale')==3) selected @endif value="3">売上先+仕入先
+                                                        <option @if (session('sale')==3) selected @endif value="3">
+                                                            売上先+仕入先
                                                         </option>
                                                     </select>
                                                 </div>
@@ -130,11 +130,14 @@
                                                         <option value=""></option>
                                                         <option @if (session('status')==3) selected @endif value="3">取引中
                                                         </option>
-                                                        <option @if (session('status')==4) selected @endif value="4">仮登録中
+                                                        <option @if (session('status')==4) selected @endif value="4">
+                                                            仮登録中
                                                         </option>
-                                                        <option @if (session('status')==2) selected @endif value="2">本登録中止
+                                                        <option @if (session('status')==2) selected @endif value="2">
+                                                            本登録中止
                                                         </option>
-                                                        <option @if (session('status')==1) selected @endif value="1">取引終了
+                                                        <option @if (session('status')==1) selected @endif value="1">
+                                                            取引終了
                                                         </option>
                                                     </select>
                                                 </div>
@@ -145,10 +148,12 @@
                                     @csrf
                                     <div class="col-lg-12 ">
                                         <div class="col-lg-3 col-sm-3 col-lg-offset-3 col-sm-offset-3">
-                                            <button type="submit" id="search" class="search-button btn btn-primary btn-sm">検索</button>
+                                            <button type="submit" id="search"
+                                                class="search-button btn btn-primary btn-sm">検索</button>
                                         </div>
                                         <div class="col-lg-3 col-sm-3">
-                                            <button type="button" id="clear" class="clear-button btn btn-default btn-sm">クリア</button>
+                                            <button type="button" id="clear"
+                                                class="clear-button btn btn-default btn-sm">クリア</button>
                                         </div>
                                     </div>
                                 </form>
@@ -165,9 +170,9 @@
                             <div class="row">
                                 <div class="col-lg-2">
                                     @if( Auth::user()->can('create','App\Customer_MST'))
-                                        <a href="{{ url('customer/create') }}">
-                                            <button class="btn btn-primary btn-sm">新規登録</button>
-                                        </a>
+                                    <a href="{{ url('customer/create') }}">
+                                        <button class="btn btn-primary btn-sm">新規登録</button>
+                                    </a>
                                     @endif
                                     <button type="button" id="csv1" class="btn btn-success btn-sm">CSV出力</button>
                                 </div>

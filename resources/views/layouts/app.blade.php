@@ -35,9 +35,7 @@
     <link href="{{ asset('css/bootstrap_add.css') }}" rel="stylesheet">
 
     <link href="{{ asset('css/master.css') }}" rel="stylesheet">
-    @if(strcmp(Request::path(),'project/create') != 0 && strcmp(Request::path(),'project/edit') != 0)
     <link href="{{ asset('css/gobal.css') }}" rel="stylesheet">
-    @endif
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.pjax/2.0.1/jquery.pjax.min.js"></script>

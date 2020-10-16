@@ -10,10 +10,8 @@
                 <div class="timeline-item">
                     <div class="timeline-body">
                         <div>
-                            <div class="box-body">
-                                @if ($message = Session::get('message'))
-                                <p class="message">{{ $message }}</p>
-                                @endif
+                            <div class="box-body p-20">
+                                <p class="message">{{ Session::get('message') }}</p>
                                 <form id="edit_customer" method="post"
                                     action="{{ url('customer/edit?id='.$customer->id) }}">
                                     {{-- row 1 --}}

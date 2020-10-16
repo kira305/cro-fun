@@ -19,3 +19,5 @@ newfile.txt
 npm
 public/newfile.txt
 storage/
+public/uploads/
+public/img/

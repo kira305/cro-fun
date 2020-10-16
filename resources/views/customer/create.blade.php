@@ -9,7 +9,7 @@
                 <div class="timeline-item">
                     <div class="timeline">
                         <div>
-                            <div class="box-body">
+                            <div class="box-body p-20">
                                 @if ($message = Session::get('message'))
                                     <p class="message">{{ $message }}</p>
                                 @endif
