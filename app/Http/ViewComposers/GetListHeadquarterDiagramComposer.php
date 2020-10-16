@@ -1,14 +1,10 @@
 <?php
+
 namespace App\Http\ViewComposers;
+
 use Illuminate\View\View;
-use Illuminate\Support\Facades\Auth;
-use Laracasts\Utilities\JavaScript\JavaScriptFacade as Javascript;
-use App\User;
-use App\Company_MST;
-use App\Project_MST;
-use App\Diagram;
-use DB;
-use Common;
+use App\Service\DiagramService;
+
 class GetListHeadquarterDiagramComposer
 {
 
@@ -20,40 +16,20 @@ class GetListHeadquarterDiagramComposer
      */
     public function compose(View $view)
     {
-       
-
-        $usr_id        = Auth::user()->id;
-        
-        $company_id    = Common::checkUserCompany($usr_id);
-        if(request()->company_id != null || request()->company_id != ""){
-        
-          $company_id    = request()->company_id;
-          $diagrams      = Diagram::where('company_id',$company_id)->get();
-
-        }else {
-          
-          $diagrams      = Diagram::whereIn('company_id',$company_id)->get();
-
-        }
-        
+        $diagramService = new DiagramService();
+        $diagrams  = $diagramService->getDataForView();
         $list_diagrams   = array();
         $checked_diagram = array();
 
         foreach ($diagrams as $diagram) {
-
-           if(!in_array($diagram->headquarters_code, $checked_diagram)){
-              
-              array_push($list_diagrams, $diagram);
-              array_push($checked_diagram, $diagram->headquarters_code);
-              
-           }
-           
+            if (!in_array($diagram->headquarters_code, $checked_diagram)) {
+                array_push($list_diagrams, $diagram);
+                array_push($checked_diagram, $diagram->headquarters_code);
+            }
         }
-    
-        $view->with([
 
-             'headquarters'           =>  $list_diagrams,
-          
+        $view->with([
+            'headquarters' =>  $list_diagrams,
         ]);
     }
 }

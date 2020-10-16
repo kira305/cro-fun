@@ -20,57 +20,59 @@ use DateTime;
 use Illuminate\Support\Facades\Input;
 
 class Crofun {
-    
+
     public function getMaxTimeInOr(){
 
         $created_at  = DB::select("select max(created_at) as created_at from organization_history where flag = true ");
         return $created_at;
     }
-    
+
     public function getTimeForDiagram(){
 
         // list($usec, $sec) = explode(' ', microtime());
-        // $dt = new DateTime(date('Y-m-d\TH:i:s', $sec) . substr($usec, 1));  
+        // $dt = new DateTime(date('Y-m-d\TH:i:s', $sec) . substr($usec, 1));
         // return $dt->format('Y-m-d H:i:s.u');
         list($usec, $sec) = explode(' ', microtime());
-        $dt = new DateTime(date('Y-m-d\TH:i:s', $sec) . substr($usec, 1));  
+        $dt = new DateTime(date('Y-m-d\TH:i:s', $sec) . substr($usec, 1));
         $dt  = date_sub($dt, date_interval_create_from_date_string('1 days'));
         return $dt->format('Y-m-d H:i:s.u');
     }
 
     public function changeFormatDateOfCredit($time){
 
+        if(empty($time)) return null;
         $time     = Carbon::parse($time);
+        // dd($time);
         $year     = $time->year;
         $month    = $time->month;
         $day      = $time->day;
         return $year.'年'.$month.'月'.$day.'日';
-  
+
     }
 
     public function changeFormatDateyymmdd($time){
-        
+
         $time     = Carbon::parse($time);
         $year     = $time->year;
         $month    = $time->month;
         $day      = $time->day;
         return sprintf("%04d",$year).sprintf("%02d",$month).sprintf("%02d",$day);
-  
+
     }
 
     public function Url_explain(){
-         
+
         $url = str_replace("http://localhost:8000/", '', (string)url()->previous());
         // $url = str_replace('https://cro-fun.noc-net.co.jp/', '', (string)url()->previous());
          //$url = str_replace('https://cro-fun.noc-net.local/', '', (string)url()->previous());
          return $url;
     }
-    
+
     public function project_index_return_button(){
 
 
          if($this->Url_explain() === "credit/index"){
-           
+
              return 4;
 
          }
@@ -78,9 +80,9 @@ class Crofun {
          if($this->Url_explain() != "home" && $this->Url_explain() != "project/index" && (strpos($this->Url_explain(), 'project/view') !== 0) && (strpos($this->Url_explain(), 'project/edit') !== 0 )){
 
             if(strpos($this->Url_explain(), 'credit/index') === false){
-              
+
                 if(strpos($this->Url_explain(), 'customer/edit') !== false){
-                  
+
                      return 1;
                 }
 
@@ -88,25 +90,25 @@ class Crofun {
 
                     return 3;
                 }
-    
-               
+
+
                 return 0;
 
              }else {
-                
+
                 return 2;
 
              }
 
          }
-         
+
          return 0;
     }
-    
+
 
 
     public function credit_index_return_button(){
-        
+
 
 
         // return $this->Url_explain();
@@ -119,56 +121,56 @@ class Crofun {
 
               return 1;
          }
-         
+
          if(strpos($this->Url_explain(), 'customer/view') !== false){
 
             return 2;
 
          }
-         
+
          return 0;
 
     }
-    
+
     public function contract_index_return_button(){
-        
+
 
         if(strpos($this->Url_explain(), 'project/edit') !== false){
 
             return 3;
         }
-        
+
         if(strpos($this->Url_explain(), 'project/view') !== false){
 
             return 4;
         }
 
-   
+
         if($this->Url_explain() != "home" && $this->Url_explain() != "contract/index" && request()->client_id != null && strpos($this->Url_explain(), 'customer/edit') !== false){
 
              return 1;
          }
 
         if(strpos($this->Url_explain(), 'customer/view') !== false){
-            
+
              return 2;
         }
 
          return 0;
-        
+
 
     }
 
     public function receivable_index_return_button(){
-         
-   
+
+
         if($this->Url_explain() != "home" && $this->Url_explain() != "receivable/index" && request()->client_id != null && strpos($this->Url_explain(), 'customer/edit') !== false){
 
              return 1;
          }
-        
+
         if(strpos($this->Url_explain(), 'customer/view') !== false){
-            
+
              return 2;
         }
 
@@ -177,25 +179,25 @@ class Crofun {
     }
 
     public function process_index_return_button(){
-         
+
         if(strpos($this->Url_explain(), 'project/edit') !== false){
 
             return 3;
         }
-        
+
         if(strpos($this->Url_explain(), 'project/view') !== false){
 
             return 4;
         }
-        
+
 
         if($this->Url_explain() != "home" && $this->Url_explain() != "process/index" && request()->client_id != null && strpos($this->Url_explain(), 'customer/edit') !== false){
 
              return 1;
          }
-         
+
         if(strpos($this->Url_explain(), 'customer/view') !== false){
-            
+
              return 2;
         }
 
@@ -204,20 +206,20 @@ class Crofun {
     }
 
     public function credit_log_return_button(){
-         
-   
+
+
         if($this->Url_explain() != "home" && $this->Url_explain() != "credit/log" && request()->client_id != null && strpos($this->Url_explain(), 'customer/edit') !== false){
 
              return 1;
         }
-         
+
         if(strpos($this->Url_explain(), 'customer/view') !== false){
-            
+
              return 2;
         }
-        
+
         if(strpos($this->Url_explain(), 'credit/edit') !== false){
-            
+
              return 3;
         }
 
@@ -225,34 +227,34 @@ class Crofun {
          return 0;
 
     }
-    
+
     public function customer_edit_return_button(){
-      
+
         if(strpos($this->Url_explain(), 'credit/index') !== false){
-            
+
              return 1;
         }
 
          return 0;
 
     }
-   
+
 
    public function credit_create_return_button(){
-       
+
         if(strpos($this->Url_explain(), 'customer/edit') !== false){
-          
+
              return 1;
         }
         if(strpos($this->Url_explain(), 'customer/view') !== false){
-            
+
              return 2;
         }
 
          return 0;
 
    }
-   
+
    public function checkProjectIsEnd($customer_id){
 
            $project = Project_MST::where('status',true)->where('client_id',$customer_id)->first();
@@ -270,7 +272,7 @@ class Crofun {
         $sanitized = static::cleanArray(Input::get());
         Input::merge($sanitized);
     }
-    
+
     public static function cleanArray($array)
     {
         $result = array();
@@ -286,11 +288,11 @@ class Crofun {
     }
 
     public function getCompanyById($company_id){
-       
+
         $company = Company_MST::where('id',$company_id)->first();
 
         return $company;
-           
+
     }
 
     public function getClientById($id){
@@ -302,7 +304,7 @@ class Crofun {
 
     // create new client's code
     public function customer_number_create($company_id){
-          
+
         $code  = DB::select('select MAX(client_code) from customer_mst where  company_id = ' .$company_id );
 
         $code  = $code[0]->max;
@@ -316,9 +318,9 @@ class Crofun {
         return  $code;
 
     }
-    
+
     public function customer_number_create_main($company_id){
-          
+
         $id  = DB::select('select MAX(client_code_main) from customer_mst where company_id = ' .$company_id );
 
         $int = (int)$id[0]->max + 1;
@@ -328,8 +330,8 @@ class Crofun {
 
     // create new project's code　
     // public function project_code_create($company_id){
-        
-        
+
+
     //     if($company_id == '1'){
 
     //         $id         = DB::select("select to_char(nextval('customer_code_1_seq'), 'FM00000000')");
@@ -337,11 +339,11 @@ class Crofun {
     //         return $this->setFirstCodeProject((int)$id[0]->to_char);
 
     //     }else {
-            
+
     //         $id         = DB::select("select to_char(nextval('customer_code_2_seq'), 'FM00000000')");
 
     //         return $this->setFirstCodeProject((int)$id[0]->to_char);
-           
+
     //     }
 
     // }
@@ -349,32 +351,32 @@ class Crofun {
     {
       return $str{$pos};
     }
-    
+
     // public function get_max_code_project($company_id){
-     
+
     //    $company = Company_MST::where('id',$company_id)->first();
     //    return sprintf("%04d",$company->project_max_code + 1);
     // }
 
     public function get_max_code_project($company_id){
-        
-           
+
+
            $projects = Project_MST::where('company_id',$company_id)->get();
            if($projects->count() >0) {
-              
+
               $company  = Company_MST::where('id',$company_id)->first();
               $max_code = $company->project_max_code;
 
               return $this->setFirstCodeProject($max_code);
 
            }
-           
+
            return $this->setFirstCodeProject(1);
-          
+
     }
 
     public function setFirstCodeProject($item){
-           
+
 
         switch ($item) {
 
@@ -436,11 +438,11 @@ class Crofun {
             $log->user_id  = Auth::user()->id;
             $log->company_id  = Auth::user()->company_id;
             $log->process  = $process;
-            
+
             if($log->save()){
 
                 return true;
-                
+
             }
             return false;
 
@@ -456,7 +458,7 @@ class Crofun {
             $log->form_id    = $form_id;
             $log->company_id = $company_id;
             $log->name       = $name;
-            $log->code       = $code; 
+            $log->code       = $code;
             $log->new_data   = $newdate;
             $log->old_data   = $olddate;
             $log->save();
@@ -468,9 +470,9 @@ class Crofun {
         $a = $object->getAttributes();
         $b = $object->getOriginal();
 
-   
+
         foreach($a as $x => $y) {
-          
+
           if(strcmp($y,$b[$x]) != 0){
 
             $log             = new Log();
@@ -481,23 +483,23 @@ class Crofun {
             $log->old_data   = $b[$x];
             $log->new_data   = $y;
             $log->item       = $x;
-            $log->process    = "UPDATE"; 
-            $log->form_id    = $form_id;        
+            $log->process    = "UPDATE";
+            $log->form_id    = $form_id;
             $log->company_id = $company_id;
             $log->name       = $name;
-            $log->code       = $code; 
+            $log->code       = $code;
             $log->save();
-            
+
           }
 
 
         }
-          
+
 
     }
     //親の情報を変更
     public function log_change($user_id,$process,$table_id,$item,$old_data,$new_data){
- 
+
             $log             = new Log();
             $log->user_id    = Auth::user()->id;
             $log->process    = $process;
@@ -509,31 +511,31 @@ class Crofun {
             $log->save();
 
     }
-    
+
     public function getDate($add_second){
-       
+
        $time     = Carbon::now();
        $time     = $time->addSeconds($add_second)->format('Y-m-d H:i:s');
-       
+
        return $time;
 
     }
 
-    
+
 
 
 
     public function checkGroup(){
-          
+
          DB::beginTransaction();
          $groups = Group_MST::whereDate('updated_at', Carbon::today())
                             ->orWhereDate('created_at', Carbon::today())
                             ->get();
         // $dt = new Carbon();
         // $dt = $dt->addSecond(3);
-        
+
          foreach ($groups as $group) {
-             
+
              $diagram = new Diagram();
 
              $projects = Project_MST::where('group_id',$group->id)->get();
@@ -563,11 +565,11 @@ class Crofun {
                      $diagram->save();
                 }
             }
-                
+
             $costs = Cost_MST::where('group_id',$group->id)->get();
 
             if(!$costs->isEmpty()){
-                
+
                 foreach ($costs as $cost) {
 
                          $diagram = new Diagram();
@@ -581,12 +583,12 @@ class Crofun {
                          $diagram->group_name                    = $group->group_name;
 
                          if($cost->type == 1){
-                                
+
                                 $diagram->cost_code         = $cost->cost_code;
                                 $diagram->cost_name         = $cost->cost_name;
 
                          }else {
-                                
+
                                 $diagram->sales_management_code         = $cost->cost_code;
                                 $diagram->sales_management              = $cost->cost_name;
                          }
@@ -596,7 +598,7 @@ class Crofun {
                          $diagram->flag                          = $group->status;
                          $diagram->id = $this->getMaxId();
                          $diagram->save();
-                }        
+                }
 
              }
 
@@ -607,16 +609,16 @@ class Crofun {
     }
 
     public function checkDepartment(){
-          
+
          DB::beginTransaction();
-         $departments = Department_MST::whereDate('updated_at', Carbon::today())                            
+         $departments = Department_MST::whereDate('updated_at', Carbon::today())
                       ->orWhereDate('created_at', Carbon::today())
                       ->get();
          // $dt = new Carbon();
          // $dt = $dt->addSecond(5);
          foreach ($departments as $department) {
-             
-            
+
+
 
              $projects = Project_MST::where('department_id',$department->id)->get();
              if(!$projects->isEmpty()){
@@ -646,13 +648,13 @@ class Crofun {
 
                 }
              }
-               
+
              $costs = Cost_MST::where('department_id',$department->id)->get();
-             
+
              if(!$costs->isEmpty()) {
 
                 foreach ($costs as $cost) {
-                     
+
                      $diagram = new Diagram();
                      $diagram->company_id                    = $cost->company_id;
                      $diagram->company_name                  = $cost->company->abbreviate_name;
@@ -663,12 +665,12 @@ class Crofun {
                      $diagram->group_code                    = $cost->group->group_list_code;
                      $diagram->group_name                    = $cost->group->group_name;
                      if($cost->type == 1){
-                            
+
                             $diagram->cost_code         = $cost->cost_code;
                             $diagram->cost_name         = $cost->cost_name;
 
                      }else {
-                            
+
                             $diagram->sales_management_code         = $cost->cost_code;
                             $diagram->sales_management              = $cost->cost_name;
                      }
@@ -680,7 +682,7 @@ class Crofun {
                 }
 
              }
-           
+
          }
 
           DB::commit();
@@ -688,19 +690,19 @@ class Crofun {
     }
 
     public function checkHeadquarter(){
-          
+
          DB::beginTransaction();
-         $headquarters = Headquarters_MST::whereDate('updated_at', Carbon::today())                            
+         $headquarters = Headquarters_MST::whereDate('updated_at', Carbon::today())
                        ->orWhereDate('created_at', Carbon::today())
                        ->get();
          // $dt = new Carbon();
          // $dt = $dt->addSecond(7);
          foreach ($headquarters as $headquarter) {
-             
+
              $projects = Project_MST::where('headquarter_id',$headquarter->id)->get();
 
              if(!$projects->isEmpty()){
-                 
+
                  foreach ($projects as $project) {
 
                      $diagram = new Diagram();
@@ -728,14 +730,14 @@ class Crofun {
 
 
              }
-             
+
 
              $costs = Cost_MST::where('headquarter_id',$headquarter->id)->get();
-             
+
              if(!$costs->isEmpty()){
 
                 foreach ($costs as $cost) {
-                         
+
                          $diagram = new Diagram();
                          $diagram->company_id                    = $cost->company_id;
                          $diagram->company_name                  = $cost->company->abbreviate_name;
@@ -746,12 +748,12 @@ class Crofun {
                          $diagram->group_code                    = $cost->group->group_list_code;
                          $diagram->group_name                    = $cost->group->group_name;
                          if($cost->type == 1){
-                                
+
                                 $diagram->cost_code         = $cost->cost_code;
                                 $diagram->cost_name         = $cost->cost_name;
 
                          }else {
-                                
+
                                 $diagram->sales_management_code         = $cost->cost_code;
                                 $diagram->sales_management              = $cost->cost_name;
                          }
@@ -770,25 +772,25 @@ class Crofun {
           DB::commit();
 
     }
-    
+
     public function checkProject(){
-          
+
         DB::beginTransaction();
 
-            // $projects = Project_MST::whereDate('updated_at', Carbon::today())      
+            // $projects = Project_MST::whereDate('updated_at', Carbon::today())
             //        ->orWhereDate('created_at', Carbon::today())
             //        ->get();
             $date  = Carbon::today();
-            $projects = Project_MST::whereDate('updated_at', Carbon::today()->subDay(1))                            
+            $projects = Project_MST::whereDate('updated_at', Carbon::today()->subDay(1))
                        ->orWhereDate('created_at', Carbon::today()->subDay(1))
                        ->get();
-            
+
             foreach ($projects as $project) {
-             
+
                  $diagram = new Diagram();
 
                  if($project){
-                     
+
                      $diagram->company_id        = $project->company_id;
                      $diagram->company_name      = $project->company->abbreviate_name;
                      $diagram->headquarters_code = $project->headquarter->headquarter_list_code;
@@ -807,8 +809,8 @@ class Crofun {
                      $diagram->created_at        = $this->getTimeForDiagram();
                      $diagram->flag              = $project->status;
 
-                 } 
-                 
+                 }
+
                  $diagram->id = $this->getMaxId();
                  $diagram->save();
 
@@ -820,24 +822,24 @@ class Crofun {
           DB::commit();
 
     }
-    
+
     public function checkCost(){
-          
+
          DB::beginTransaction();
-         // $costs = Cost_MST::whereDate('updated_at', Carbon::today())                            
+         // $costs = Cost_MST::whereDate('updated_at', Carbon::today())
          //        ->orWhereDate('created_at', Carbon::today())
          //        ->get();
          $date  = Carbon::today();
-         $costs = Cost_MST::whereDate('updated_at', Carbon::today()->subDay(1))                            
+         $costs = Cost_MST::whereDate('updated_at', Carbon::today()->subDay(1))
                        ->orWhereDate('created_at', Carbon::today()->subDay(1))
                        ->get();
-       
+
          foreach ($costs as $cost) {
-             
+
              $diagram = new Diagram();
-           
+
              if($cost){
-                 
+
                  $diagram->company_id        = $cost->company_id;
                  $diagram->company_name      = $cost->company->abbreviate_name;
                  $diagram->headquarters_code = $cost->headquarter->headquarter_list_code;
@@ -857,12 +859,12 @@ class Crofun {
                 }
 
                  if($cost->type == 1){
-                        
+
                         $diagram->cost_code         = $cost->cost_code;
                         $diagram->cost_name         = $cost->cost_name;
 
                  }else {
-                        
+
                         $diagram->sales_management_code         = $cost->cost_code;
                         $diagram->sales_management              = $cost->cost_name;
                  }
@@ -873,23 +875,23 @@ class Crofun {
 
 
              }
-             
+
              $diagram->id = $this->getMaxId();
              $diagram->save();
 
          }
-       
+
         DB::commit();
 
     }
 
     public function getMaxId(){
-         
+
          $id  = DB::select('select MAX(id) from organization_history');
-      
+
          return $id[0]->max+1;
     }
-    
+
 
     //テーブルコメント欄取得
     public function tablecomnet_get(){
@@ -913,22 +915,22 @@ class Crofun {
     public function field_name_josn(){
 
     $json = json_encode(['id' => 'ユーザーID', 'usr_code' => '社員コード','usr_name' => 'ユーザー名', 'rule' => '画面ルールID','pw' => 'PW', 'email_address' => 'メールアドレス','company_id' => '会社ID', 'headquarter_id' => '事業本部ID','department_id' => '部署ID', 'group_id' => 'グループID','retire' => '退職', 'updated_at' => '更新日', 'created_at' => '作成日','position_id' => '役職ID','login_first' => 'ログイン', 'password_chenge_date' => 'pw変更']);
-    
+
     dd($json);
-    
+
     //ルールアクション
       foreach ($menus as $check) {
         $old_Rule_log[$check->id ] = $check->link_name;
    }
         dd($old_Rule_log);
-    
+
     }
-    
+
     //-- Newをパスワード生成する
     //   受取パラメータ：なし
     //   返信パラメータ：パスワード
     //  nobusada
-    
+
     public static function New_password_create(){
         //最小桁
         $password_min = system::where('f_setting_group','login')->where('f_setting_name','password_min')->first();
@@ -970,7 +972,7 @@ class Crofun {
 
         return implode($passw);
     }
-    
+
     public static function Time_array_Get(){
         $TIME_ARRAY = array(
             "09:00",
