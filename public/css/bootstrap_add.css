@@ -1,5 +1,5 @@
-@media (min-width: 992px) {
-  .col-md-6 {
+/* @media (min-width: 992px) { */
+  /* .col-md-6 {
     width:auto ;
   }
   .col-md-1 {
@@ -23,50 +23,49 @@
 
 .col-lg-2{
     /* width: 25%; */
-    white-space: nowrap;
-}
+    /* white-space: nowrap; */
+/* } */
 
 /* th, td { white-space: nowrap;} */
 .box-body .row {
-  overflow-x: auto;
-  margin-left: 0;
-  margin-right: 0;
+    margin-left: 0;
+    margin-right: 0;
 }
 
-.box-body .left {
+/* .box-body .left {
     margin-right: auto;
-}
-.col-xs-2 {
+} */
+/* .col-xs-2 {
     width: 25%;
     white-space: nowrap;
-}
+} */
 
-.check_area[type='checkbox'] {
+/* .check_area[type='checkbox'] {
     cursor: pointer;
-}
-.check_rule{
+} */
+/* .check_rule{
     white-space: nowrap;
-}
-.check_area label{
+} */
+/* .check_area label{
     width: 100%;
     margin: 0px;
     padding: 10px;
-}
-.check_area td{
-  padding: 0px;
-}
+} */
+/* .check_area td{
+    padding: 0px;
+} */
 
 .difference {
- background-color: #ffcccc;
+    background-color: #ffcccc;
 }
 #MonthPicker_target_data_st{
- width: 180px;
+    width: 180px;
 }
 #MonthPicker_target_data_en{
- width: 180px;
+    width: 180px;
 }
 #MonthPicker_get_time{
- width: 180px;
+    width: 180px;
 }
 
 .table>thead>tr>th,.table>tbody>tr>td  {
@@ -86,4 +85,3 @@
 .width-100{
     width: 100%;
 }
-

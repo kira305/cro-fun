@@ -1,6 +1,7 @@
 @extends('layouts.app')
 @section('content')
 @section('breadcrumbs', Breadcrumbs::render('company/create'))
+<script type="text/javascript" src="{{ asset('js/bs-custom-file-input.min.js') }}"></script>
     <div class="row">
         <div class="col-md-12">
             <ul class="timeline">
@@ -12,101 +13,58 @@
                                     <p class="message">{{ isset($message) ? $message : '' }}</p>
                                     <form id="create_user" method="post" action="{{ url('company/create') }}" enctype="multipart/form-data">
                                         @csrf
-                                        {{-- row 9 --}}
+                                        {{-- row 1 --}}
                                         <div class="row">
                                             <div class="col-lg-10 col-md-12 col-lg-offset-1">
                                                 <div class="row search-form">
                                                     <div class="col-lg-6 form-group">
-                                                        <label>備考</label>
-                                                        <textarea class="form-control" rows="3" name="note">{{ $project->note ? $project->note : old('note') }}</textarea>
+                                                        <label>会社名</label>
+                                                        <input type="text" name="company_name" value="{{ old('company_name') }}" class="form-control" maxlength="25">
+                                                        <span class="text-danger">
+                                                            {{ $errors->has('company_name') ? $errors->first('company_name') : '' }}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-3 offset-md-3">
-                                                <label class="input_lable"><b>会社名</b></label>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div class="form-group">
-
-                                                    <input type="text" name="company_name" value="{{ old('company_name') }}"
-                                                        class="form-control" maxlength="25">
-                                                </div>
-                                            </div>
-                                            @if ($errors->has('company_name'))
-
-                                                <span class="text-danger">{{ $errors->first('company_name') }}</span>
-
-                                            @endif
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-3 offset-md-3">
-                                                <label class="input_lable"><b>省略名</b></label>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div class="form-group">
-                                                    <input type="text" maxlength="10" name="abbreviate_name"
-                                                        value="{{ old('abbreviate_name') }}" class="form-control">
-                                                </div>
-                                            </div>
-                                            @if ($errors->has('abbreviate_name'))
-
-                                                <span class="text-danger">{{ $errors->first('abbreviate_name') }}</span>
-
-                                            @endif
-                                        </div>
-
-                                        <div class="row">
-
-                                            <div class="col-md-3 offset-md-3">
-                                                <label class="input_lable"><b>ロゴファイル</b></label>
-                                            </div>
-                                            <div class="col-xs-2">
-                                                <div class="form-group">
-                                                    <input style="float: left;" id="logo" value="{{ old('logo') }}"
-                                                        type="file" name="logo">
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                        <div class="row">
-                                            <div class="col-md-3 offset-md-3"></div>
-                                            <div class="col-xs-2">
-                                                <div class="form-group">
-                                                    <label>推奨サイズは、1770*452ピクセルになります。</label>
-                                                </div>
-                                            </div>
-                                        </div>
-
-
-                                        @if ($errors->has('logo'))
-                                            <div class="row">
-                                                <div class="col-md-3 offset-md-3"></div>
-                                                <div class="col-xs-2">
-                                                    <div class="form-group">
-                                                        <span class="text-danger">{{ $errors->first('logo') }}</span>
+                                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                                <div class="row search-form">
+                                                    <div class="col-lg-6 form-group">
+                                                        <label>省略名</label>
+                                                        <input type="text" maxlength="10" name="abbreviate_name" value="{{ old('abbreviate_name') }}" class="form-control">
+                                                        <span class="text-danger">
+                                                            {{ $errors->has('abbreviate_name') ? $errors->first('abbreviate_name') : '' }}
+                                                        </span>
                                                     </div>
                                                 </div>
                                             </div>
-                                        @endif
-
-                                        <div class="row">
-                                            <br>
-                                            <div class="col-sm-3">
-
-                                                <button type="submit" style="float:right;width: 200px;"
-                                                    class="btn btn-primary">登録</button>
+                                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                                <div class="row search-form">
+                                                    <div class="col-lg-6 form-group btn-upload-style">
+                                                        <label>ロゴファイル</label>
+                                                        <div class="input-group ">
+                                                            <div class="custom-file">
+                                                                <input id="logo" value="{{ old('logo') }}" type="file" name="logo" class="custom-file-input">
+                                                                <label class="custom-file-label" for="logo">{{ old('logo') }}</label>
+                                                            </div>
+                                                        </div>
+                                                        <span class="text-danger">
+                                                            {{ $errors->has('logo') ? $errors->first('logo') : '' }}
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <p style="padding-left: 15px;"><b class="color-red">※) </b><b class="color-header">推奨サイズは、1770*452ピクセルになります。</b></p>
                                             </div>
-                                            <div class="col-sm-5">
-
-                                                <a style="float: left;width: 200px;" class="btn btn-danger"
-                                                    href="{{ url('company/index') }}">戻る</a>
-                                            </div>
-                                            <div class="col-sm-4">
-
+                                            <div class="col-lg-10 col-md-12 col-lg-offset-1">
+                                                <div class="row search-form">
+                                                    <div class="col-lg-6 form-group btn-upload-style">
+                                                        <div class="col-xs-3 col-xs-offset-3">
+                                                            <button type="submit" class="btn btn-primary search-button">登録</button>
+                                                        </div>
+                                                        <div class="col-xs-3">
+                                                            <a style="float: left" class="btn btn-danger search-button" href="{{ url('company/index') }}">戻る</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
@@ -118,4 +76,9 @@
             </ul>
         </div>
     </div>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            bsCustomFileInput.init();
+        });
+    </script>
 @endsection

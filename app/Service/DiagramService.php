@@ -3,36 +3,24 @@
 namespace App\Service;
 
 use App\Common\Common;
-use App\User;
 use App\Diagram;
-use App\Headquarters_MST;
-use App\Department_MST;
-use App\Group_MST;
-use App\Project_MST;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Cache;
 use Auth;
-use Mail;
 use DB;
-use Exception;
 
 class DiagramService
 {
-
     public function changeFormatDate($date)
     {
-
         return $date . ' 23:59:59';
     }
 
     public function changeFormatStartDate($date)
     {
-
         return $date . ' 00:00:01';
     }
     public function changeFormatToday()
     {
-
         $day = Carbon::today();
         $day = $day->subDay(1)->format('Y-m-d');
         return $day . ' 23:59:59';
@@ -40,7 +28,6 @@ class DiagramService
 
     public function getToday()
     {
-
         $day = Carbon::today();
         $day = $day->format('Y-m-d');
         return $day . ' 23:59:59';
@@ -48,12 +35,7 @@ class DiagramService
     // 今日までのツリー図 created_atを取得 group by tree id
     public function getListTreeIdOnToday_tree_id($company_id)
     {
-
-        // $company_id  = Auth::user()->company_id;
-        // $tree_id     = DB::select("select tree_id, max(created_at) as created_at from organization_history where company_id = '".$company_id."' and  tree_id IS NOT NULL and flag = true group by tree_id");
-        // return $tree_id;
         $date     = $this->getToday();
-        // $tree_id  = DB::select("select tree_id, max(created_at) as created_at from organization_history where company_id = '".$company_id."' and created_at <= '".$date."' and tree_id IS NOT NULL and flag = true and tree_id NOT IN (select tree_id from organization_history where created_at <= '".$date."' and flag = false and tree_id IS NOT NULL) group by tree_id");
         $tree_id  = DB::select("select tree_id, max(created_at) as created_at from organization_history where company_id = '" . $company_id . "' and created_at <= '" . $date . "' and tree_id IS NOT NULL and flag = true and tree_id NOT IN (select tree_id from organization_history where created_at <= '" . $date . "' and flag = false and tree_id IS NOT NULL and created_at in (select max(created_at) as created_at from organization_history where created_at <= '" . $date . "' group by tree_id)) group by tree_id ORDER BY tree_id ASC");
 
         return $tree_id;
@@ -62,13 +44,7 @@ class DiagramService
     // 今日までのツリー図 created_atを取得 group by pj id
     public function getListTreeIdOnToday_pj_id($company_id)
     {
-
-        // $company_id  = Auth::user()->company_id;
-        // $pj_id  = DB::select("select pj_id, max(created_at) as created_at from organization_history where company_id
-        // = '".$company_id."' and  pj_id IS NOT NULL and flag = true group by pj_id");
-        // return $pj_id;
         $date   = $this->changeFormatToday();
-        // $pj_id  = DB::select("select pj_id, max(created_at) as created_at from organization_history where company_id = '".$company_id."' and  created_at <= '".$date."' and pj_id IS NOT NULL and flag = true and pj_id NOT IN (select pj_id from organization_history where created_at <= '".$date."' and flag = false and pj_id IS NOT NULL) group by pj_id");
         $pj_id  = DB::select("select pj_id, max(created_at) as created_at from organization_history where company_id = '" . $company_id . "' and created_at <= '" . $date . "' and pj_id IS NOT NULL and flag = true and pj_id NOT IN (select pj_id from organization_history where created_at <= '" . $date . "' and flag = false and pj_id IS NOT NULL and created_at in (select max(created_at) as created_at from organization_history where created_at <= '" . $date . "' group by pj_id)) group by pj_id ORDER BY pj_id ASC");
         return $pj_id;
     }
@@ -77,18 +53,14 @@ class DiagramService
     // pj_idで取得されたcreated_atとtree_idで取得されたcreated_atを合併
     public function concatListCreateAt($company_id)
     {
-
         $list_time    = array();
         $list_time_1 = $this->getListTreeIdOnToday_tree_id($company_id);
         $list_time_2 = $this->getListTreeIdOnToday_pj_id($company_id);
-
         foreach ($list_time_1 as $l) {
-
             array_push($list_time, $l);
         }
 
         foreach ($list_time_2 as $l) {
-
             array_push($list_time, $l);
         }
 
@@ -97,9 +69,7 @@ class DiagramService
     // 今日までのツリー図
     public function diagramToday($company_id)
     {
-
         $list_id_data = $this->concatListCreateAt($company_id);
-
         $diagrams     = Diagram::where('company_id', $company_id)
             ->whereIn('created_at', array_column($list_id_data, 'created_at'))
             ->orderBy('headquarters_code', 'ASC')
@@ -108,8 +78,6 @@ class DiagramService
             ->orderBy('cost_code', 'ASC')
             ->orderBy('sales_management_code', 'ASC')
             ->orderBy('project_code', 'ASC')
-            // ->orderBy('pj_id','ASC')
-            // ->orderBy('tree_id','ASC')
             ->paginate(30);
 
         return $diagrams;
@@ -117,9 +85,7 @@ class DiagramService
 
     public function diagramTodayCSV($company_id)
     {
-
         $list_id_data = $this->concatListCreateAt($company_id);
-
         $diagrams     = Diagram::where('company_id', $company_id)
             ->whereIn('created_at', array_column($list_id_data, 'created_at'))
             ->orderBy('headquarters_code', 'ASC')
@@ -129,8 +95,6 @@ class DiagramService
             ->orderBy('sales_management_code', 'ASC')
             ->orderBy('project_code', 'ASC')
             ->orderBy('id', 'DESC')
-            // ->orderBy('pj_id','ASC')
-            // ->orderBy('tree_id','ASC')
             ->get();
 
         return $diagrams;
@@ -142,35 +106,27 @@ class DiagramService
     // pj_idがある場合 $dateまでの最新created_at
     public function getListTreeIdByTime_1($date)
     {
-
-        // $pj_id  = DB::select("select pj_id, max(created_at) as created_at from organization_history where created_at <= '".$date."' and pj_id IS NOT NULL and flag = true and pj_id NOT IN (select pj_id from organization_history where created_at <= '".$date."' and flag = false and pj_id IS NOT NULL) group by pj_id");
         $pj_id  = DB::select("select pj_id, max(created_at) as created_at from organization_history where created_at <= '" . $date . "' and pj_id IS NOT NULL and flag = true and pj_id NOT IN (select pj_id from organization_history where created_at <= '" . $date . "' and flag = false and pj_id IS NOT NULL and created_at in (select max(created_at) as created_at from organization_history where created_at <= '" . $date . "' group by pj_id)) group by pj_id ORDER BY pj_id ASC");
         return $pj_id;
     }
     // tree_idがある場合　$dateまでの最新created_at
     public function getListTreeIdByTime_2($date)
     {
-
-        // $tree_id  = DB::select("select tree_id, max(created_at) as created_at from organization_history where created_at <= '".$date."' and tree_id IS NOT NULL and flag = true and tree_id NOT IN (select tree_id from organization_history where created_at <= '".$date."' and flag = false and tree_id IS NOT NULL) group by tree_id");
-
         $tree_id  = DB::select("select tree_id, max(created_at) as created_at from organization_history where created_at <= '" . $date . "' and tree_id IS NOT NULL and flag = true and tree_id NOT IN (select tree_id from organization_history where created_at <= '" . $date . "' and flag = false and tree_id IS NOT NULL and created_at in (select max(created_at) as created_at from organization_history where created_at <= '" . $date . "' group by tree_id)) group by tree_id ORDER BY tree_id ASC");
         return $tree_id;
     }
     // pj_idとtree_idのデータ組み合わせて
     public function getListTreeIdByTime($date)
     {
-
         $list_id    = array();
         $list_id_1 = $this->getListTreeIdByTime_1($date);
         $list_id_2 = $this->getListTreeIdByTime_2($date);
 
         foreach ($list_id_1 as $l) {
-
             array_push($list_id, $l);
         }
 
         foreach ($list_id_2 as $l) {
-
             array_push($list_id, $l);
         }
 
@@ -213,8 +169,6 @@ class DiagramService
         if ($project_grp_code != "" && $project_grp_code != null) {
             $diagrams  = $diagrams->where('project_grp_code', $project_grp_code);
         }
-
-
         $diagrams  = $diagrams->orderBy('headquarters_code', 'ASC')
             ->orderBy('department_code', 'ASC')
             ->orderBy('group_code', 'ASC')
@@ -226,16 +180,13 @@ class DiagramService
         return $diagrams;
     }
 
-    // -----------------------------------------------------------------------------------------------------------------
     // CSV
     //csv抽出する際に時間ごとにcreated_atを取得
     public function diagramByTime($date, $company_id)
     {
-
         $list_id_data = $this->getListTreeIdByTime($date);
         $diagrams     = Diagram::where('company_id', $company_id)
             ->whereIn('created_at', array_column($list_id_data, 'created_at'))
-
             ->orderBy('headquarters_code', 'ASC')
             ->orderBy('department_code', 'ASC')
             ->orderBy('group_code', 'ASC')
@@ -248,7 +199,6 @@ class DiagramService
     // 時間で検索
     public function getListDateBetweenStartAndEnd($company_id, $start_date, $end_date)
     {
-
         $list_day        = array();
         $list_day_return = array();
         $time_list  = Diagram::where('company_id', $company_id)
@@ -262,54 +212,38 @@ class DiagramService
             ->get();
 
         foreach ($time_list as $time) {
-
             $day = Carbon::parse($time->created_at)->format('Y-m-d');
-
             if (!in_array($day, $list_day)) {
-
                 array_push($list_day, $day);
                 array_push($list_day_return, $this->changeFormatDate($day));
             }
         }
-
         return $list_day_return;
     }
     // csv作成
     public function createDiagram($company_id, $start_date, $end_date, $time_list, $today_diagrams, $file_name)
     {
-
-
         $list_diagram   = array();
         foreach ($time_list as $time) { // $time_list　は　$start_time から
-
             $diagrams       = $this->diagramByTime($time, $company_id)->toArray();
-
             $size1          = sizeof($today_diagrams);
             $size2          = sizeof($diagrams);
             $diagram_by_time = array();
-
             if ($size1 > $size2) {
-
                 $today_list = array();
                 $time_list  = array();
                 $tree_id    = array();
                 $pj_id      = array();
                 for ($i = 0; $i < $size1; $i++) {
-
                     if ($i < $size2) {
-                        $j = 0;
                         foreach ($today_diagrams as $diagram) {
-
                             if ($diagrams[$i]['tree_id'] != null) {
-
                                 array_push($tree_id, $diagrams[$i]['tree_id']);
                             }
                             if ($diagrams[$i]['pj_id'] != null) {
                                 array_push($pj_id, $diagrams[$i]['pj_id']);
                             }
-
                             if ($result = $this->compareListTree($diagram, $diagrams, $i)) {
-
                                 array_push($diagram_by_time, $result[0]);
                                 array_push($today_list, $result[1]);
                                 array_push($time_list, $result[2]);
@@ -318,7 +252,6 @@ class DiagramService
                     } else {
 
                         if (in_array($today_diagrams[$i]['pj_id'], $pj_id) || in_array($today_diagrams[$i]['tree_id'], $tree_id)) {
-
                             if ($item = $this->compare($diagrams, $today_diagrams[$i])) {
                                 array_push($diagram_by_time, $item);
                                 array_push($today_list, $today_diagrams[$i]['id']);
@@ -327,9 +260,7 @@ class DiagramService
                         }
 
                         if ($result = $this->concatTreeListToday($today_diagrams, $today_list, $i)) {
-
                             if ($today_diagrams[$i]['tree_id'] != null) {
-
                                 array_push($tree_id, $today_diagrams[$i]['tree_id']);
                             }
                             if ($today_diagrams[$i]['pj_id'] != null) {
@@ -340,7 +271,6 @@ class DiagramService
                         }
                     }
                 }
-
                 // --------------------------------------------------------------------------------
                 foreach ($today_diagrams as $diagram) {
 
@@ -351,8 +281,6 @@ class DiagramService
                             $diagram['id'],
                             $diagram['pj_id'],
                             $diagram['tree_id'],
-                            // $today_diagrams[0]['own_company'],
-                            // $today_diagrams[0]['company_name'],
                             $diagram['headquarters_code'],
                             $diagram['headquarters'],
                             $diagram['department_code'],
@@ -368,8 +296,6 @@ class DiagramService
                             $diagram['project_code'],
                             $diagram['project_name'],
                             '',
-                            // $diagrams[0]['own_company'],
-                            // $diagrams[0]['company_name'],
                             '',
                             '',
                             '',
@@ -386,20 +312,15 @@ class DiagramService
                             '',
                             '',
                         );
-
                         array_push($diagram_by_time, $item);
                         array_push($today_list, $diagram['id']);
                     }
                 }
 
                 foreach ($diagrams as $diagram) {
-
                     if (!in_array($diagram['id'], $time_list)) {
-
                         $item = array(
                             '',
-                            // $today_diagrams[0]['own_company'],
-                            // $today_diagrams[0]['company_name'],
                             '',
                             '',  '', '',
                             '',
@@ -416,8 +337,6 @@ class DiagramService
                             '',
                             '',
                             $diagram['created_at'],
-                            // $diagrams[0]['own_company'],
-                            // $diagrams[0]['company_name'],
                             $diagram['id'],
                             $diagram['pj_id'],
                             $diagram['tree_id'],
@@ -436,21 +355,16 @@ class DiagramService
                             $diagram['project_code'],
                             $diagram['project_name'],
                         );
-
                         array_push($diagram_by_time, $item);
                     }
                 }
             } else {
-
                 $today_list = array();
                 $time_list  = array();
                 $tree_id    = array();
                 $pj_id      = array();
                 for ($i = 0; $i < $size2; $i++) {
-
                     if ($i <= $size1) {
-
-                        $check_id = array();
                         foreach ($today_diagrams as $diagram) {
                             if ($diagram['tree_id'] != null) {
 
@@ -477,7 +391,6 @@ class DiagramService
                             }
                         }
                         if ($result = $this->concatTreeListTime($diagrams, $time_list, $i)) {
-
                             array_push($diagram_by_time, $result[0]);
                             array_push($time_list, $result[1]);
                         }
@@ -486,16 +399,12 @@ class DiagramService
 
                 //------------------------------------------------------------------
                 foreach ($today_diagrams as $diagram) {
-
                     if (!in_array($diagram['id'], $today_list)) {
-
                         $item = array(
                             $diagram['created_at'],
                             $diagram['id'],
                             $diagram['pj_id'],
                             $diagram['tree_id'],
-                            // $today_diagrams[0]['own_company'],
-                            // $today_diagrams[0]['company_name'],
                             $diagram['headquarters_code'],
                             $diagram['headquarters'],
                             $diagram['department_code'],
@@ -511,8 +420,6 @@ class DiagramService
                             $diagram['project_code'],
                             $diagram['project_name'],
                             '',
-                            // $diagrams[0]['own_company'],
-                            // $diagrams[0]['company_name'],
                             '',
                             '',
                             '',  '', '',
@@ -529,20 +436,15 @@ class DiagramService
                             '',
                             '',
                         );
-
                         array_push($diagram_by_time, $item);
                         array_push($today_list, $diagram['id']);
                     }
                 }
 
                 foreach ($diagrams as $diagram) {
-
                     if (!in_array($diagram['id'], $time_list)) {
-
                         $item = array(
                             '',
-                            // $today_diagrams[0]['own_company'],
-                            // $today_diagrams[0]['company_name'],
                             '',
                             '',
                             '', '',
@@ -563,8 +465,6 @@ class DiagramService
                             $diagram['id'],
                             $diagram['pj_id'],
                             $diagram['tree_id'],
-                            // $diagrams[0]['own_company'],
-                            // $diagrams[0]['company_name'],
                             $diagram['headquarters_code'],
                             $diagram['headquarters'],
                             $diagram['department_code'],
@@ -580,22 +480,16 @@ class DiagramService
                             $diagram['project_code'],
                             $diagram['project_name'],
                         );
-
                         array_push($diagram_by_time, $item);
                         array_push($time_list, $diagram['id']);
                     }
                 }
             }
-
             array_push($diagram_by_time, array('', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '',));
             array_push($list_diagram, $diagram_by_time); //
-
-
         }
 
         echo "\xEF\xBB\xBF";
-
-        //$reviews = Reviews::getReviewExport($this->hw->healthwatchID)->get();
         $columns = array(
             '日付',
             'id',
@@ -638,36 +532,25 @@ class DiagramService
         $callback = function () use ($columns, $list_diagram) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
-
-            //fwrite($file, "sep=\t" . "\r\n");
             foreach ($list_diagram as $list_d) {
-
                 foreach ($list_d as $list) {
-
                     fputcsv($file, $list);
                 }
             }
             fclose($file);
         };
-
         return $callback;
     }
 
     public function compare($today_diagrams, $diagram)
     {
-
         foreach ($today_diagrams as $d) {
-
             if ($d['id'] == $diagram['id']) {
-
                 $item = array(
-
                     $d['created_at'],
                     $d['id'],
                     $d['pj_id'],
                     $d['tree_id'],
-                    // $today_diagrams[0]['own_company'],
-                    // $today_diagrams[0]['company_name'],
                     $d['headquarters_code'],
                     $d['headquarters'],
                     $d['department_code'],
@@ -686,8 +569,6 @@ class DiagramService
                     $diagram['id'],
                     $diagram['pj_id'],
                     $diagram['tree_id'],
-                    // $diagrams[0]['own_company'],
-                    // $diagrams[0]['company_name'],
                     $diagram['headquarters_code'],
                     $diagram['headquarters'],
                     $diagram['department_code'],
@@ -702,21 +583,17 @@ class DiagramService
                     $diagram['project_grp_name'],
                     $diagram['project_code'],
                     $diagram['project_name'],
-
                 );
                 return   $item;
             }
         }
-
         return false;
     }
 
     public function compareListTree($diagram, $diagrams, $i)
     {
-
         $result  = array();
         $tree_id = $diagram['tree_id'];
-
         $pj_id   = $diagram['pj_id'];
 
         if ((($diagram['tree_id'] == $diagrams[$i]['tree_id']) && ($diagram['tree_id'] != null)) ||
@@ -729,8 +606,6 @@ class DiagramService
                 $diagram['id'],
                 $diagram['pj_id'],
                 $diagram['tree_id'],
-                // $today_diagrams[0]['own_company'],
-                // $today_diagrams[0]['company_name'],
                 $diagram['headquarters_code'],
                 $diagram['headquarters'],
                 $diagram['department_code'],
@@ -749,8 +624,6 @@ class DiagramService
                 $diagrams[$i]['id'],
                 $diagrams[$i]['pj_id'],
                 $diagrams[$i]['tree_id'],
-                // $diagrams[0]['own_company'],
-                // $diagrams[0]['company_name'],
                 $diagrams[$i]['headquarters_code'],
                 $diagrams[$i]['headquarters'],
                 $diagrams[$i]['department_code'],
@@ -765,22 +638,14 @@ class DiagramService
                 $diagrams[$i]['project_grp_name'],
                 $diagrams[$i]['project_code'],
                 $diagrams[$i]['project_name'],
-
             );
             array_push($result, $item);
             array_push($result, $diagram['id']);
             array_push($result, $diagrams[$i]['id']);
             array_push($result, $tree_id);
             array_push($result, $pj_id);
-            // if($diagram['tree_id'] != null){
-            //   array_push($result, $diagram['tree_id']);
-            // }else {
-            //    array_push($result, $diagram['pj_id']);
-            // }
-
             return  $result;
         }
-
         return false;
     }
 
@@ -792,8 +657,6 @@ class DiagramService
 
             $item = array(
                 $today_diagrams[$i]['created_at'],
-                // $today_diagrams[0]['own_company'],
-                // $today_diagrams[0]['company_name'],
                 $today_diagrams[$i]['headquarters_code'],
                 $today_diagrams[$i]['headquarters'],
                 $today_diagrams[$i]['department_code'],
@@ -809,8 +672,6 @@ class DiagramService
                 $today_diagrams[$i]['project_code'],
                 $today_diagrams[$i]['project_name'],
                 '',
-                // $diagrams[0]['own_company'],
-                // $diagrams[0]['company_name'],
                 '',
                 '',
                 '',
@@ -842,8 +703,6 @@ class DiagramService
 
             $item = array(
                 '',
-                // $today_diagrams[0]['own_company'],
-                // $today_diagrams[0]['company_name'],
                 '',
                 '',
                 '',
@@ -859,8 +718,6 @@ class DiagramService
                 '',
                 '',
                 $diagrams[$i]['created_at'],
-                // $diagrams[0]['own_company'],
-                // $diagrams[0]['company_name'],
                 $diagrams[$i]['headquarters_code'],
                 $diagrams[$i]['headquarters'],
                 $diagrams[$i]['department_code'],
@@ -876,19 +733,15 @@ class DiagramService
                 $diagrams[$i]['project_code'],
                 $diagrams[$i]['project_name'],
             );
-
             array_push($result, $item);
             array_push($result, $diagrams[$i]['id']);
         }
-
         return false;
     }
 
     /*
-
-       最新のツリー図を作成
-       param $today_diagrams 最新ツリー図のデータ
-
+    最新のツリー図を作成
+    param $today_diagrams 最新ツリー図のデータ
      */
     public function createDiagram2($today_diagrams)
     {
@@ -904,8 +757,6 @@ class DiagramService
 
             $item = array(
                 $today_diagrams[$i]['created_at'],
-                // $today_diagrams[0]['own_company'],
-                // $today_diagrams[0]['company_name'],
                 $today_diagrams[$i]['headquarters_code'],
                 $today_diagrams[$i]['headquarters'],
                 $today_diagrams[$i]['department_code'],
@@ -920,25 +771,7 @@ class DiagramService
                 $today_diagrams[$i]['project_grp_name'],
                 $today_diagrams[$i]['project_code'],
                 $today_diagrams[$i]['project_name']
-                //   '',
-                // $diagrams[0]['own_company'],
-                // $diagrams[0]['company_name'],
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
-                //                                       '',
             );
-
             array_push($diagram_by_time, $item);
         }
 
@@ -946,9 +779,6 @@ class DiagramService
         array_push($list_diagram, $diagram_by_time); //
 
         echo "\xEF\xBB\xBF";
-
-
-        //$reviews = Reviews::getReviewExport($this->hw->healthwatchID)->get();
         $columns = array(
             '日付',
             '事業本部コード',
@@ -965,39 +795,18 @@ class DiagramService
             '集計コード名',
             'プロジェクトコード',
             'プロジェクト名',
-            //                                  '変更日',
-            //                                  '事業本部コード',
-            //                                  '事業本部',
-            //                                  '部署コード',
-            //                                  '部署',
-            //                                  'グループコード',
-            //                                  'グループ',
-            //                                  '販管コード',
-            //                                  '販管費',
-            //                                  '原価コード',
-            //                                  '原価',
-            //                                  '集計コード',
-            //                                  '集計コード名',
-            //                                  'プロジェクトコード',
-            //                                  'プロジェクト名'
         );
 
         $callback = function () use ($columns, $list_diagram) {
             $file = fopen('php://output', 'w');
             fputcsv($file, $columns);
-
-            //fwrite($file, "sep=\t" . "\r\n");
             foreach ($list_diagram as $list_d) {
-
                 foreach ($list_d as $list) {
-
                     fputcsv($file, $list);
                 }
             }
-
             fclose($file);
         };
-
         return $callback;
     }
 

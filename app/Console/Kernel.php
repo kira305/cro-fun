@@ -6,6 +6,7 @@ use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 use App\Rule_action;
 use DB;
+
 class Kernel extends ConsoleKernel
 {
     /**
@@ -14,9 +15,7 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-      
-      'App\Console\Commands\CrofunDiagram'
-        
+        'App\Console\Commands\CrofunDiagram'
     ];
 
     /**
@@ -27,8 +26,7 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('tree:update')->everyMinute();
-
+        $schedule->command('tree:update')->everyMinute();
     }
 
     /**
@@ -38,8 +36,7 @@ class Kernel extends ConsoleKernel
      */
     protected function commands()
     {
-        $this->load(__DIR__.'/Commands');
-
+        $this->load(__DIR__ . '/Commands');
         require base_path('routes/console.php');
     }
 }

@@ -3,14 +3,6 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use App\Headquarters_MST;
-use App\Department_MST;
-use App\Group_MST;
-use App\Project_MST;
-use App\Cost_MST;
-use App\Diagram;
-use App\Rule_action;
-use Carbon\Carbon;
 use Crofun;
 class CrofunDiagram extends Command
 {
@@ -47,12 +39,5 @@ class CrofunDiagram extends Command
     {
         Crofun::checkProject();
         Crofun::checkCost();
-        // Crofun::checkGroup();
-        // Crofun::checkDepartment();
-        // Crofun::checkHeadquarter();
     }
-
-
-
-
 }
